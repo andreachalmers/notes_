@@ -46,6 +46,8 @@ const Sidebar = styled.aside`
 	padding: 16px 0 16px 12px;
 	
 	.ui.celled.list>.item {
+		padding: 8px 4px;
+		
 		&:first-child {
 			border-top: 0;
 		}
@@ -54,7 +56,6 @@ const Sidebar = styled.aside`
 			color: ${vars.cafe} !important;
 			border-width: 1px 0;
 			color: white;
-			padding: 8px 4px;
 			
 			.header {
 				color: ${vars.cafe};
@@ -90,6 +91,20 @@ const NotesApp = () => {
 
 	}
 
+	const handleActive = i => {
+		let newArr = notesArr
+		console.log(notesArr[i].active)
+		if(notesArr[i].active) {
+			newArr[i].active = false
+		} else {
+			newArr[i].active = true
+		}
+		setNotesArr([...notesArr],newArr)
+		console.log(newArr)
+
+		//when one is active make all others inactive/false
+	}
+
 	return (
 		<>
 			<Header>
@@ -105,13 +120,16 @@ const NotesApp = () => {
 					<List celled>
 						{
 							notesArr?.map((item,i) => (
-								<List.Item key={item[i]} active={`${item.active ? 'active' : ''}`}>
+								<List.Item
+									key={item[i]}
+									active={`${item.active ? 'active' : ''}`}
+									onClick={() => handleActive(i)}>
 									<List.Content>
 										<List.Header>{item.heading}</List.Header>
 										{item.content}
 									</List.Content>
 								</List.Item>
-							))
+							)).reverse()
 						}
 					</List>
 				</Sidebar>
