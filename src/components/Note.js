@@ -10,7 +10,7 @@ const vars= {
 	gainsboro: `rgba(219, 217, 219, 0.2)`,
 }
 
-const NoteArea = styled.textarea`
+const NoteArea = styled.p`
 	width: calc(70% - ${vars.borderWidth});
 	border-width: 0;
 	padding: 16px;
@@ -21,13 +21,11 @@ const NoteArea = styled.textarea`
 		height: calc(100vh - ${vars.borderWidth * 2} - ${vars.headerHeight});
 	}
 `
-const Note = ({addNote}) => {
+const Note = ({addNote, currentNote}) => {
 	//const [heading, setHeading] = useState('')
 	//const [content, setContent] = useState('')
-	const [note,setNote] = useState({
-		heading: '',
-		content: '',
-	})
+	const [compose, setCompose] = useState(false)
+	const [note,setNote] = useState(currentNote)
 
 	const handleOnChange = value => {
 		setNote({
@@ -41,7 +39,16 @@ const Note = ({addNote}) => {
 	},[note])
 
 	return (
-		<NoteArea onChange={e => handleOnChange(e.target.value)}></NoteArea>
+		<NoteArea contentEditable="true" onChange={e => handleOnChange(e.target.value)}>
+			{
+				!compose ?
+					<>
+						<h1>{currentNote.heading}</h1>
+						<p>{currentNote.content}</p>
+					</>
+					: ''
+			}
+		</NoteArea>
 	);
 }
 

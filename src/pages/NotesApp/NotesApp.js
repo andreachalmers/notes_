@@ -29,7 +29,8 @@ const Header = styled.header`
 	border-bottom: ${vars.borderWidth} solid lightgrey;
 	background: ${vars.cafe};
 	background: indianred;
-	color: #fff;
+	background: white;
+	//color: #fff;
 	
 	.heading { margin-bottom: 0; }
 `
@@ -75,6 +76,7 @@ const NotesApp = () => {
 			active: true,
 		}
 	])
+	const notesLength = notesArr.length
 
 	useEffect(() => {
 		setTimeout(handleSave, 2000)
@@ -93,7 +95,7 @@ const NotesApp = () => {
 			<Header>
 				<h1 className='heading'>Notes</h1>
 				<AlignBtns>
-					<Button icon='compose'/>
+					<Button icon='compose' color="red"/>
 					<Button icon='trash alternate outline'/>
 					<Button icon='save outline' onClick={handleSave}/>
 				</AlignBtns>
@@ -106,14 +108,14 @@ const NotesApp = () => {
 								<List.Item key={item[i]} active={`${item.active ? 'active' : ''}`}>
 									<List.Content>
 										<List.Header>{item.heading}</List.Header>
-										An excellent companion
+										{item.content}
 									</List.Content>
 								</List.Item>
 							))
 						}
 					</List>
 				</Sidebar>
-				<Note addNote={handleAddNote}></Note>
+				<Note addNote={handleAddNote} currentNote={notesArr[notesLength - 1]}></Note>
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</Wrapper>
