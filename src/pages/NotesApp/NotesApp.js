@@ -99,10 +99,15 @@ const NotesApp = () => {
 		} else {
 			newArr[i].active = true
 		}
-		setNotesArr([...notesArr],newArr)
-		console.log(newArr)
 
 		//when one is active make all others inactive/false
+		newArr.map(item => {
+			if(item !== notesArr[i]) {
+				item.active = false
+			}
+
+		})
+		setNotesArr([...notesArr],newArr)
 	}
 
 	return (
