@@ -41,6 +41,7 @@ const AlignBtns = styled.div`
 
 const Sidebar = styled.aside`
 	width: 30%;
+	max-width: 240px;
 	height: calc(100vh - ${vars.headerHeight});
 	background-color: ${vars.gainsboro};
 	padding: 16px 0 16px 12px;
@@ -84,7 +85,7 @@ const NotesApp = () => {
 	}, [])
 
 	const handleAddNote = note => {
-		console.log(note)
+		//console.log(note)
 	}
 
 	const handleSave = () => {
@@ -92,6 +93,8 @@ const NotesApp = () => {
 	}
 
 	const handleActive = i => {
+		//todo:by default last item in arr should be active note unless clicked on another in sidebar
+		//todo: if the top most item is active and  you click it again it should not toggle but stay active
 		let newArr = notesArr
 		console.log(notesArr[i].active)
 		if(notesArr[i].active) {
@@ -108,8 +111,29 @@ const NotesApp = () => {
 
 		})
 		setNotesArr([...notesArr],newArr)
+		setActiveNote(notesArr[i])
 	}
 
+	const getActiveNote = () => {
+		const lastNote = notesArr[notesLength - 1]
+		//todo: use this instead of setting activenode state
+		let activeNote = notesArr.filter(item => {
+			if(item.active === true)
+				return item
+		})
+		console.log(typeof(activeNote))
+		return activeNote.length ? activeNote[0].heading : lastNote.heading
+	}
+	const [activeNote, setActiveNote] = useState(notesArr[notesLength - 1])
+
+	useEffect(()=> {
+		console.log('hello')
+		const activeNote = notesArr.filter(item => {
+			if(item.active === true)
+				return item
+		})
+		//setActiveNote(activeNote)
+	}, [notesArr])
 	return (
 		<>
 			<Header>
@@ -138,7 +162,7 @@ const NotesApp = () => {
 						}
 					</List>
 				</Sidebar>
-				<Note addNote={handleAddNote} currentNote={notesArr[notesLength - 1]}></Note>
+				<Note addNote={handleAddNote} currentNote={getActiveNote} notes={notesArr}></Note>
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</Wrapper>

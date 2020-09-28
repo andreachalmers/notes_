@@ -21,33 +21,54 @@ const NoteArea = styled.p`
 		height: calc(100vh - ${vars.borderWidth * 2} - ${vars.headerHeight});
 	}
 `
-const Note = ({addNote, currentNote}) => {
-	//const [heading, setHeading] = useState('')
-	//const [content, setContent] = useState('')
+const Note = ({addNote, currentNote, notes, children }) => {
+	const [heading, setHeading] = useState('')
+	const [content, setContent] = useState('')
+	//const [active, setActive] = useState()
 	const [compose, setCompose] = useState(false)
-	const [note,setNote] = useState(currentNote)
+	const [note,setNote] = useState('')
 
-	const handleOnChange = value => {
+
+	const handleOnChange = () => {
 		setNote({
-			heading: 'heading',
-			content: value,
+			heading: heading,
+			content: '',
+			active: true,
 		})
 	}
+	useEffect(()=> console.log(notes[0].heading), [currentNote])
+	useEffect(()=>{
+		console.log('chnage')
+		const noteNodes = document.getElementById('note-area').children
+		let heading
+		/*if( noteNodes!== undefined) {
+			heading = noteNodes[0].innerHTML
+		}*/
+		setNote({
+			heading: 'heading',
+			content: 'content',
+			active: true,
+		})
+	}, [])
 
 	useEffect(()=> {
 		addNote(note)
 	},[note])
 
+	const _renderNote = () => {
+		return (
+			<>
+				{/*<h1>{note.heading}</h1>
+				<p>{note.content}</p>*/}
+			</>
+		)
+	}
+
 	return (
-		<NoteArea contentEditable="true" onChange={e => handleOnChange(e.target.value)}>
-			{
-				!compose ?
-					<>
-						<h1>{currentNote.heading}</h1>
-						<p>{currentNote.content}</p>
-					</>
-					: ''
-			}
+		//todo: get rid of react content- editable warnings
+		<NoteArea contentEditable="true" id='note-area'>
+			{_renderNote()}
+			{currentNote}
 		</NoteArea>
 	);
 }
