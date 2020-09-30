@@ -85,7 +85,18 @@ const NotesApp = () => {
 	}, [])
 
 	const handleAddNote = note => {
-		//console.log(note)
+		const newList = [...notesArr]
+		const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
+		console.log(currentActiveKey)
+		newList[currentActiveKey].active = false
+
+		newList[notesArr.length] = {
+			heading: `Note ${notesArr.length + 1}`,
+			content: "content",
+			active: true,
+		}
+
+		setNotesArr(newList)
 	}
 
 	const handleSave = () => {
@@ -139,7 +150,7 @@ const NotesApp = () => {
 			<Header>
 				<h1 className='heading'>Notes</h1>
 				<AlignBtns>
-					<Button icon='compose' color="red"/>
+					<Button icon='compose' color="red" onClick={handleAddNote}/>
 					<Button icon='trash alternate outline'/>
 					<Button icon='save outline' onClick={handleSave}/>
 				</AlignBtns>
@@ -162,7 +173,7 @@ const NotesApp = () => {
 						}
 					</List>
 				</Sidebar>
-				<Note addNote={handleAddNote} currentNote={getActiveNote} notes={notesArr}></Note>
+				{/*<Note addNote={handleAddNote} currentNote={getActiveNote} notes={notesArr}></Note>*/}
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</Wrapper>
