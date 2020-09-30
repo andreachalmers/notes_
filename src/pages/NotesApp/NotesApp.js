@@ -87,7 +87,7 @@ const NotesApp = () => {
 	const handleAddNote = note => {
 		const newList = [...notesArr]
 		const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
-		console.log(currentActiveKey)
+		//console.log(currentActiveKey)
 		newList[currentActiveKey].active = false
 
 		newList[notesArr.length] = {
@@ -138,12 +138,26 @@ const NotesApp = () => {
 	const [activeNote, setActiveNote] = useState(notesArr[notesLength - 1])
 
 	useEffect(()=> {
-		console.log('hello')
+		//console.log('hello')
 		const activeNote = notesArr.filter(item => {
 			if(item.active === true)
 				return item
 		})
 		//setActiveNote(activeNote)
+	}, [notesArr])
+
+	const handleRemoveNote = () => {
+		if(notesArr.length) {
+			const newList = notesArr.filter(item => item.active !== true)
+			if(notesArr.length > 1)
+				newList[newList.length - 1].active = true
+
+			setNotesArr(newList)
+		}
+	}
+
+	useEffect(() => {
+		console.log(notesArr.length)
 	}, [notesArr])
 	return (
 		<>
@@ -151,7 +165,7 @@ const NotesApp = () => {
 				<h1 className='heading'>Notes</h1>
 				<AlignBtns>
 					<Button icon='compose' color="red" onClick={handleAddNote}/>
-					<Button icon='trash alternate outline'/>
+					<Button icon='trash alternate outline' onClick={handleRemoveNote}/>
 					<Button icon='save outline' onClick={handleSave}/>
 				</AlignBtns>
 			</Header>
