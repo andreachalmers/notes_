@@ -68,12 +68,12 @@ const Sidebar = styled.aside`
 const NotesApp = () => {
 	const [notesArr, setNotesArr] = useState([
 		{
-			heading: 'Snickerdoodle',
+			heading: '# Snickerdoodle',
 			content: 'An excellent companion',
 			active: false,
 		},
 		{
-			heading: 'Lorem Ipsum',
+			heading: '# Lorem Ipsum',
 			content: 'Hipster ipsum bacon coffee',
 			active: true,
 		}
@@ -93,7 +93,7 @@ const NotesApp = () => {
 		}
 
 		newList[notesArr.length] = {
-			heading: `Note ${notesArr.length + 1}`,
+			heading: `# Note ${notesArr.length + 1}`,
 			content: "content",
 			active: true,
 		}
@@ -108,14 +108,12 @@ const NotesApp = () => {
 	const handleActive = i => {
 		//todo:by default last item in arr should be active note unless clicked on another in sidebar
 		//todo: if the top most item is active and  you click it again it should not toggle but stay active
+
+		//todo: if active is clicked again remain active
 		let newArr = notesArr
 		console.log(notesArr[i].active)
-		if(notesArr[i].active) {
-			newArr[i].active = false
-		} else {
-			newArr[i].active = true
-		}
 
+		newArr[i].active = true
 		//when one is active make all others inactive/false
 		newArr.map(item => {
 			if(item !== notesArr[i]) {
@@ -135,7 +133,6 @@ const NotesApp = () => {
 				if(item.active === true)
 					return item
 			})
-			console.log(typeof(activeNote))
 			return activeNote.length ? activeNote[0] : lastNote
 		}
 	}
@@ -159,9 +156,15 @@ const NotesApp = () => {
 		}
 	}
 
-	useEffect(() => {
-		console.log(notesArr.length)
-	}, [notesArr])
+	const handleUpdateNotes = editedNote => {
+		//todo: create a fn and call everywhere you need to find active note or rather key
+		const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
+		const newList = [...notesArr]
+		newList[currentActiveKey] = editedNote
+
+		setNotesArr(newList)
+	}
+
 	return (
 		<>
 			<Header>
@@ -190,7 +193,7 @@ const NotesApp = () => {
 						}
 					</List>
 				</Sidebar>
-				<Note activeNote={getActiveNote()}></Note>
+				<Note activeNote={getActiveNote()} updateNotes={handleUpdateNotes}></Note>
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</Wrapper>

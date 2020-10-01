@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+import ReactDOM from 'react-dom';
+import ReactMarkdown from 'react-markdown';
 import styled from "styled-components";
 const vars= {
 	headerHeight: `61px`,
@@ -10,7 +12,7 @@ const vars= {
 	gainsboro: `rgba(219, 217, 219, 0.2)`,
 }
 
-const NoteArea = styled.p`
+const NoteArea = styled.div`
 	width: calc(70% - ${vars.borderWidth});
 	border-width: 0;
 	padding: 16px;
@@ -22,24 +24,51 @@ const NoteArea = styled.p`
 	}
 `
 
+const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
+	const [editNote, setEditNote] = useState(activeNote)
 
+	const md = activeNote ? Object.values(activeNote).filter(item => item!== true ).join('\n\n') : ''
+	const input = '# This is a header\n\nAnd this is a paragraph'
 
-const Note = ({addNote, activeNote, notes, children }) => {
+	useEffect(() => {
+		//updateNotes(editNote)
+	}, [editNote, updateNotes])
+
 	const _renderNote = () => {
 		if(activeNote !== undefined) {
 			return (
 				<>
-					<h2>{activeNote.heading}</h2>
+					<h2 id='heading'>{activeNote.heading}</h2>
 					<p>{activeNote.content}</p>
 				</>
 			)
 		}
 	}
 
+	const handleEdit = () => {
+		const newHeading = document.getElementById('heading').innerText
+		const newNote = document.getElementsByTagName('div').innerText
+		/*setEditNote({
+			//heading: newHeading,
+			content: newNote,
+			active: true,
+		})*/
+
+		const obj = {
+			heading: newHeading,
+			content: newNote,
+			active: true,
+		}
+		updateNotes(obj)
+	}
+
 	return (
 		//todo: get rid of react content- editable warnings
-		<NoteArea id='note-area'>
+		/*<NoteArea id='note-area' onInput={handleEdit}>
 			{_renderNote()}
+		</NoteArea>*/
+		<NoteArea>
+			<ReactMarkdown source={md}/>
 		</NoteArea>
 	);
 }
