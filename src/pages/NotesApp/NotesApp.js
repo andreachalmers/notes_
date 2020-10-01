@@ -78,6 +78,7 @@ const NotesApp = () => {
 			active: true,
 		}
 	])
+	//const [activeNote, setActiveNote] = useState(notesArr[notesLength - 1])
 	const notesLength = notesArr.length
 
 	useEffect(() => {
@@ -123,20 +124,21 @@ const NotesApp = () => {
 
 		})
 		setNotesArr([...notesArr],newArr)
-		setActiveNote(notesArr[i])
+		//setActiveNote(notesArr[i])
 	}
 
 	const getActiveNote = () => {
-		const lastNote = notesArr[notesLength - 1]
-		//todo: use this instead of setting activenode state
-		let activeNote = notesArr.filter(item => {
-			if(item.active === true)
-				return item
-		})
-		console.log(typeof(activeNote))
-		return activeNote.length ? activeNote[0].heading : lastNote.heading
+		if(notesArr.length) {
+			const lastNote = notesArr[notesLength - 1]
+			//todo: use this instead of setting activenode state
+			let activeNote = notesArr.filter(item => {
+				if(item.active === true)
+					return item
+			})
+			console.log(typeof(activeNote))
+			return activeNote.length ? activeNote[0] : lastNote
+		}
 	}
-	const [activeNote, setActiveNote] = useState(notesArr[notesLength - 1])
 
 	useEffect(()=> {
 		//console.log('hello')
@@ -188,7 +190,7 @@ const NotesApp = () => {
 						}
 					</List>
 				</Sidebar>
-				<Note addNote={handleAddNote} currentNote={getActiveNote} notes={notesArr}></Note>
+				<Note activeNote={getActiveNote()}></Note>
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</Wrapper>
