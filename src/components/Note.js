@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
+import {TextArea} from "semantic-ui-react";
 import ReactMarkdown from 'react-markdown';
 import styled from "styled-components";
 const vars= {
@@ -26,8 +27,8 @@ const NoteArea = styled.div`
 
 const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 	const [editNote, setEditNote] = useState(activeNote)
-
 	const md = activeNote ? Object.values(activeNote).filter(item => item!== true ).join('\n\n') : ''
+	const [note,setNote] = useState(md)
 	const input = '# This is a header\n\nAnd this is a paragraph'
 
 	useEffect(() => {
@@ -62,14 +63,23 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 		updateNotes(obj)
 	}
 
+	const handleChange = () => {
+		const value = document.querySelector('#editor').value
+		setNote(value)
+	}
+
 	return (
 		//todo: get rid of react content- editable warnings
 		/*<NoteArea id='note-area' onInput={handleEdit}>
 			{_renderNote()}
 		</NoteArea>*/
 		<NoteArea>
-			<ReactMarkdown source={md}/>
+			<TextArea id="editor" onChange={handleChange}>{note}</TextArea>
+			<ReactMarkdown source={note}/>
 		</NoteArea>
+		//todo: decide whether to autosave or save and change the input of react md accordingly
+		//todo: have one view for newnote(compose), one for editing and maybe one for just viewing
+
 	);
 }
 
