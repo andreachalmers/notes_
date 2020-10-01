@@ -86,9 +86,10 @@ const NotesApp = () => {
 
 	const handleAddNote = note => {
 		const newList = [...notesArr]
-		const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
-		//console.log(currentActiveKey)
-		newList[currentActiveKey].active = false
+		if(notesArr.length) {
+			const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
+			newList[currentActiveKey].active = false
+		}
 
 		newList[notesArr.length] = {
 			heading: `Note ${notesArr.length + 1}`,
@@ -187,7 +188,7 @@ const NotesApp = () => {
 						}
 					</List>
 				</Sidebar>
-				{/*<Note addNote={handleAddNote} currentNote={getActiveNote} notes={notesArr}></Note>*/}
+				<Note addNote={handleAddNote} currentNote={getActiveNote} notes={notesArr}></Note>
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</Wrapper>
