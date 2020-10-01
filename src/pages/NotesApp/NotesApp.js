@@ -78,6 +78,7 @@ const NotesApp = () => {
 			active: true,
 		}
 	])
+	//const [activeNote, setActiveNote] = useState(notesArr[notesLength - 1])
 	const notesLength = notesArr.length
 
 	useEffect(() => {
@@ -85,7 +86,19 @@ const NotesApp = () => {
 	}, [])
 
 	const handleAddNote = note => {
-		//console.log(note)
+		const newList = [...notesArr]
+		if(notesArr.length) {
+			const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
+			newList[currentActiveKey].active = false
+		}
+
+		newList[notesArr.length] = {
+			heading: `Note ${notesArr.length + 1}`,
+			content: "content",
+			active: true,
+		}
+
+		setNotesArr(newList)
 	}
 
 	const handleSave = () => {
@@ -111,36 +124,51 @@ const NotesApp = () => {
 
 		})
 		setNotesArr([...notesArr],newArr)
-		setActiveNote(notesArr[i])
+		//setActiveNote(notesArr[i])
 	}
 
 	const getActiveNote = () => {
-		const lastNote = notesArr[notesLength - 1]
-		//todo: use this instead of setting activenode state
-		let activeNote = notesArr.filter(item => {
-			if(item.active === true)
-				return item
-		})
-		console.log(typeof(activeNote))
-		return activeNote.length ? activeNote[0].heading : lastNote.heading
+		if(notesArr.length) {
+			const lastNote = notesArr[notesLength - 1]
+			//todo: use this instead of setting activenode state
+			let activeNote = notesArr.filter(item => {
+				if(item.active === true)
+					return item
+			})
+			console.log(typeof(activeNote))
+			return activeNote.length ? activeNote[0] : lastNote
+		}
 	}
-	const [activeNote, setActiveNote] = useState(notesArr[notesLength - 1])
 
 	useEffect(()=> {
-		console.log('hello')
+		//console.log('hello')
 		const activeNote = notesArr.filter(item => {
 			if(item.active === true)
 				return item
 		})
 		//setActiveNote(activeNote)
 	}, [notesArr])
+
+	const handleRemoveNote = () => {
+		if(notesArr.length) {
+			const newList = notesArr.filter(item => item.active !== true)
+			if(notesArr.length > 1)
+				newList[newList.length - 1].active = true
+
+			setNotesArr(newList)
+		}
+	}
+
+	useEffect(() => {
+		console.log(notesArr.length)
+	}, [notesArr])
 	return (
 		<>
 			<Header>
 				<h1 className='heading'>Notes</h1>
 				<AlignBtns>
-					<Button icon='compose' color="red"/>
-					<Button icon='trash alternate outline'/>
+					<Button icon='compose' color="red" onClick={handleAddNote}/>
+					<Button icon='trash alternate outline' onClick={handleRemoveNote}/>
 					<Button icon='save outline' onClick={handleSave}/>
 				</AlignBtns>
 			</Header>
@@ -162,7 +190,7 @@ const NotesApp = () => {
 						}
 					</List>
 				</Sidebar>
-				<Note addNote={handleAddNote} currentNote={getActiveNote} notes={notesArr}></Note>
+				<Note activeNote={getActiveNote()}></Note>
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</Wrapper>

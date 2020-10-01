@@ -21,54 +21,25 @@ const NoteArea = styled.p`
 		height: calc(100vh - ${vars.borderWidth * 2} - ${vars.headerHeight});
 	}
 `
-const Note = ({addNote, currentNote, notes, children }) => {
-	const [heading, setHeading] = useState('')
-	const [content, setContent] = useState('')
-	//const [active, setActive] = useState()
-	const [compose, setCompose] = useState(false)
-	const [note,setNote] = useState('')
 
 
-	const handleOnChange = () => {
-		setNote({
-			heading: heading,
-			content: '',
-			active: true,
-		})
-	}
-	useEffect(()=> console.log(notes[0].heading), [currentNote])
-	useEffect(()=>{
-		console.log('chnage')
-		const noteNodes = document.getElementById('note-area').children
-		let heading
-		/*if( noteNodes!== undefined) {
-			heading = noteNodes[0].innerHTML
-		}*/
-		setNote({
-			heading: 'heading',
-			content: 'content',
-			active: true,
-		})
-	}, [])
 
-	useEffect(()=> {
-		addNote(note)
-	},[note])
-
+const Note = ({addNote, activeNote, notes, children }) => {
 	const _renderNote = () => {
-		return (
-			<>
-				{/*<h1>{note.heading}</h1>
-				<p>{note.content}</p>*/}
-			</>
-		)
+		if(activeNote !== undefined) {
+			return (
+				<>
+					<h2>{activeNote.heading}</h2>
+					<p>{activeNote.content}</p>
+				</>
+			)
+		}
 	}
 
 	return (
 		//todo: get rid of react content- editable warnings
-		<NoteArea contentEditable="true" id='note-area'>
+		<NoteArea id='note-area'>
 			{_renderNote()}
-			{currentNote}
 		</NoteArea>
 	);
 }
