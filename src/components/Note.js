@@ -26,14 +26,19 @@ const NoteArea = styled.div`
 `
 
 const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
-	const [editNote, setEditNote] = useState(activeNote)
+	//const [editNote, setEditNote] = useState(activeNote)
 	const md = activeNote ? Object.values(activeNote).filter(item => item!== true ).join('\n\n') : ''
-	const [note,setNote] = useState(md)
+	console.log(md)
+	const [note,setNote] = useState(activeNote ? Object.values(activeNote).filter(item => item!== true ).join('\n\n') : '')
 	const input = '# This is a header\n\nAnd this is a paragraph'
 
 	useEffect(() => {
+		setNote(md)
+	}, [activeNote, md])
+
+	useEffect(() => {
 		//updateNotes(editNote)
-	}, [editNote, updateNotes])
+	}, [updateNotes])
 
 	const _renderNote = () => {
 		if(activeNote !== undefined) {
@@ -74,12 +79,12 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 			{_renderNote()}
 		</NoteArea>*/
 		<NoteArea>
-			<TextArea id="editor" onChange={handleChange}>{note}</TextArea>
+			<TextArea id="editor" onChange={handleChange} value={note}/>
 			<ReactMarkdown source={note}/>
 		</NoteArea>
 		//todo: decide whether to autosave or save and change the input of react md accordingly
-		//todo: have one view for newnote(compose), one for editing and maybe one for just viewing
-
+		//todo: have one view for newnote(compose), one for editing and maybe one for just viewing and for each view the source will change
+		//or cater for changing note use md
 	);
 }
 
