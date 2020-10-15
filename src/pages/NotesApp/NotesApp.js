@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import Note from '../../components/Note'
 import { List, Button } from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css'
@@ -19,6 +19,8 @@ const vars= {
 
 const Wrapper = styled.div`
 	display: flex;
+	max-width: 100vw;
+	max-height: 100%;
 `
 
 const Header = styled.header`
@@ -40,9 +42,8 @@ const AlignBtns = styled.div`
 `
 
 const Sidebar = styled.aside`
-	width: 30%;
-	max-width: 240px;
-	height: calc(100vh - ${vars.headerHeight});
+	width: 15%;
+	height: 100vh;
 	background-color: ${vars.gainsboro};
 	padding: 16px 0 16px 12px;
 	
@@ -78,12 +79,8 @@ const NotesApp = () => {
 			active: true,
 		}
 	])
-	//const [activeNote, setActiveNote] = useState(notesArr[notesLength - 1])
 	const notesLength = notesArr.length
 
-	useEffect(() => {
-		setTimeout(handleSave, 2000)
-	}, [])
 
 	const handleAddNote = note => {
 		const newList = [...notesArr]
@@ -161,7 +158,6 @@ const NotesApp = () => {
 		const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
 		const newList = [...notesArr]
 		newList[currentActiveKey] = editedNote
-
 		setNotesArr(newList)
 	}
 
@@ -172,7 +168,6 @@ const NotesApp = () => {
 				<AlignBtns>
 					<Button icon='compose' color="red" onClick={handleAddNote}/>
 					<Button icon='trash alternate outline' onClick={handleRemoveNote}/>
-					<Button icon='save outline' onClick={handleSave}/>
 				</AlignBtns>
 			</Header>
 			<Wrapper>
@@ -184,8 +179,8 @@ const NotesApp = () => {
 									key={item[i]}
 									active={`${item.active ? 'active' : ''}`}
 									onClick={() => handleActive(i)}>
-									<List.Content>
-										<List.Header>{item.heading}</List.Header>
+									<List.Content className="list-content">
+										<List.Header>{!item.content ? 'New Note': item.heading}</List.Header>
 										{item.content}
 									</List.Content>
 								</List.Item>

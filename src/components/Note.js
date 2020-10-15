@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {TextArea} from "semantic-ui-react";
 import ReactMarkdown from 'react-markdown';
 import styled from "styled-components";
+import './Note.scss'
 const vars= {
 	headerHeight: `61px`,
 	borderWidth: `1px`,
@@ -15,8 +16,9 @@ const vars= {
 
 const NoteArea = styled.div`
 	width: calc(70% - ${vars.borderWidth});
+	width: 85%;
 	border-width: 0;
-	padding: 16px;
+	padding: 40px;
 	font-size: 1.25em;
 	
 	&:focus {
@@ -26,19 +28,14 @@ const NoteArea = styled.div`
 `
 
 const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
-	//const [editNote, setEditNote] = useState(activeNote)
 	const md = activeNote ? Object.values(activeNote).filter(item => item!== true ).join('\n\n') : ''
 	console.log(md)
-	const [note,setNote] = useState(activeNote ? Object.values(activeNote).filter(item => item!== true ).join('\n\n') : '')
+	const [note,setNote] = useState(md)
 	const input = '# This is a header\n\nAnd this is a paragraph'
 
 	useEffect(() => {
 		setNote(md)
 	}, [activeNote, md])
-
-	useEffect(() => {
-		//updateNotes(editNote)
-	}, [updateNotes])
 
 	const _renderNote = () => {
 		if(activeNote !== undefined) {
@@ -51,9 +48,23 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 		}
 	}
 
-	const handleEdit = () => {
-		const newHeading = document.getElementById('heading').innerText
-		const newNote = document.getElementsByTagName('div').innerText
+	const debounce = (func, wait) => {
+		let timeout;
+
+		return function executedFunction(...args) {
+			const later = () => {
+				clearTimeout(timeout);
+				func(...args);
+			};
+
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+		};
+	};
+
+	const handleEdit = debounce((value) => {
+		//const newHeading = document.getElementById('heading').innerText
+		//const newNote = document.getElementsByTagName('div').innerText
 		/*setEditNote({
 			//heading: newHeading,
 			content: newNote,
@@ -61,16 +72,21 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 		})*/
 
 		const obj = {
-			heading: newHeading,
-			content: newNote,
+			//heading: '',
+			content: value,
 			active: true,
 		}
 		updateNotes(obj)
-	}
+	})
 
-	const handleChange = () => {
-		const value = document.querySelector('#editor').value
-		setNote(value)
+	const handleChange = e => {
+		const value = e.target.value
+		// sep heading and content here instead
+		const endOfHeading = value.indexOf("\n")
+		let heading = !value ? 'New Note' : value.slice(0, endOfHeading)
+		//let content = value.slice(endOfHeading, (value.length - 1))
+		//setNote(value)
+		handleEdit(value)
 	}
 
 	return (
@@ -79,8 +95,8 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 			{_renderNote()}
 		</NoteArea>*/
 		<NoteArea>
-			<TextArea id="editor" onChange={handleChange} value={note}/>
-			<ReactMarkdown source={note}/>
+			<textarea id="editor" onChange={e => handleChange(e)} value={note} className="textarea" placeholder="Well what are you waiting for? Get typing..."/>
+			<ReactMarkdown source={note} className="md"/>
 		</NoteArea>
 		//todo: decide whether to autosave or save and change the input of react md accordingly
 		//todo: have one view for newnote(compose), one for editing and maybe one for just viewing and for each view the source will change
