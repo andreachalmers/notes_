@@ -30,9 +30,10 @@ const SidebarContainer = styled.aside`
 `
 
 
-const Sidebar = ({notesArr, handleActive}) => {
+const Sidebar = ({notesArr, handleActive, children}) => {
 	return (
 		<SidebarContainer>
+			{children}
 			<List celled>
 				{
 					notesArr?.map((item,i) => (

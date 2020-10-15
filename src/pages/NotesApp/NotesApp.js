@@ -11,7 +11,10 @@ import styled from 'styled-components'
 import '../../scss/index.scss'
 
 const AlignBtns = styled.div`
+	display:flex;
 	margin-left: auto;
+	justify-content: flex-end;
+	margin-right: ${props => props.marginRight ? props.marginRight : 0};
 `
 
 const NotesApp = () => {
@@ -111,15 +114,15 @@ const NotesApp = () => {
 
 	return (
 		<>
-			<Header>
-				<h1 className='heading'>Notes</h1>
-				<AlignBtns>
+			<Header heading="Notes">
+				<AlignBtns marginRight="8px">
 					<Button icon='compose' color="red" onClick={handleAddNote}/>
 					<Button icon='trash alternate outline' onClick={handleRemoveNote}/>
 				</AlignBtns>
 			</Header>
 			<FlexWrapper>
-				<Sidebar notesArr={notesArr} handleActive={handleActive}/>
+				<Sidebar notesArr={notesArr} handleActive={handleActive}>
+				</Sidebar>
 				<Note activeNote={getActiveNote()} updateNotes={handleUpdateNotes}/>
 				{/*<NoteArea>
 				</NoteArea>*/}

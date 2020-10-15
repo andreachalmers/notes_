@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
-import {TextArea} from "semantic-ui-react";
+import TextArea from '../components/atoms/TextArea';
 import ReactMarkdown from 'react-markdown';
 import styled from "styled-components";
 import '../scss/components/_Note.scss'
@@ -20,7 +20,7 @@ const NoteArea = styled.div`
 
 const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 	const md = activeNote ? Object.values(activeNote).filter(item => item!== true ).join('\n\n') : ''
-	console.log(md)
+	console.log('rerendering',md)
 	const [note,setNote] = useState(md)
 	const input = '# This is a header\n\nAnd this is a paragraph'
 
@@ -86,7 +86,12 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 			{_renderNote()}
 		</NoteArea>*/
 		<NoteArea>
-			<textarea id="editor" onChange={e => handleChange(e)} value={note} className="textarea" placeholder="Well what are you waiting for? Get typing..."/>
+			<TextArea
+				id="editor"
+				onChange={e => handleChange(e)}
+				value={note}
+				placeholder="Well what are you waiting for? Get typing..."
+			/>
 			<ReactMarkdown source={note} className="md"/>
 		</NoteArea>
 		//todo: decide whether to autosave or save and change the input of react md accordingly

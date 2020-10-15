@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import React from "react";
 
-const Header = styled.header`
+const HeaderContainer = styled.header`
 	display: flex;
 	width: 100%;
 	align-items: center;
@@ -13,5 +14,12 @@ const Header = styled.header`
 	
 	.heading { margin-bottom: 0; }
 `
-
+const Header = ({heading, children}) => {
+	return (
+		<HeaderContainer>
+			<h1 className='heading'>{heading}</h1>
+			{children}
+		</HeaderContainer>
+	)
+}
 export default Header
