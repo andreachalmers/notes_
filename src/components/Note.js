@@ -3,27 +3,18 @@ import ReactDOM from 'react-dom';
 import {TextArea} from "semantic-ui-react";
 import ReactMarkdown from 'react-markdown';
 import styled from "styled-components";
-import './Note.scss'
-const vars= {
-	headerHeight: `61px`,
-	borderWidth: `1px`,
-	red: `#ff0035`,
-	indianred: `indianred`,
-	richBlack: `#010b13`,
-	cafe: `#a77e58`,
-	gainsboro: `rgba(219, 217, 219, 0.2)`,
-}
+import '../scss/components/_Note.scss'
 
 const NoteArea = styled.div`
-	width: calc(70% - ${vars.borderWidth});
+	width: calc(70% - var(--borderWidth));
 	width: 85%;
 	border-width: 0;
 	padding: 40px;
 	font-size: 1.25em;
 	
 	&:focus {
-		outline: ${vars.borderWidth} dashed ${vars.cafe};
-		height: calc(100vh - ${vars.borderWidth * 2} - ${vars.headerHeight});
+		outline: var(--borderWidth) dashed var(--cafe);
+		height: calc(100vh - (var(--borderWidth) * 2) - var(--headerHeight));
 	}
 `
 

@@ -1,69 +1,17 @@
 import React, {useEffect, useState, useRef} from 'react'
 import Note from '../../components/Note'
+import Header from '../../components/organisms/Header'
+import Sidebar from '../../components/organisms/Sidebar'
+import FlexWrapper from "../../containers/FlexWrapper";
 import { List, Button } from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css'
 import styled from 'styled-components'
 //import { ADD_TODO, REMOVE_TODO } from '../../actionTypes'
 //import { notes } from '../../actions'
-import './NotesApp.scss'
-
-const vars= {
-	headerHeight: `61px`,
-	borderWidth: `1px`,
-	red: `#ff0035`,
-	indianred: `indianred`,
-	richBlack: `#010b13`,
-	cafe: `#a77e58`,
-	gainsboro: `rgba(219, 217, 219, 0.2)`,
-}
-
-const Wrapper = styled.div`
-	display: flex;
-	max-width: 100vw;
-	max-height: 100%;
-`
-
-const Header = styled.header`
-	display: flex;
-	width: 100%;
-	align-items: center;
-	padding: 8px 4px 8px 16px;
-	border-bottom: ${vars.borderWidth} solid lightgrey;
-	background: ${vars.cafe};
-	background: indianred;
-	background: white;
-	//color: #fff;
-	
-	.heading { margin-bottom: 0; }
-`
+import '../../scss/index.scss'
 
 const AlignBtns = styled.div`
 	margin-left: auto;
-`
-
-const Sidebar = styled.aside`
-	width: 15%;
-	height: 100vh;
-	background-color: ${vars.gainsboro};
-	padding: 16px 0 16px 12px;
-	
-	.ui.celled.list>.item {
-		padding: 8px 4px;
-		
-		&:first-child {
-			border-top: 0;
-		}
-		
-		&.active {
-			color: ${vars.cafe} !important;
-			border-width: 1px 0;
-			color: white;
-			
-			.header {
-				color: ${vars.cafe};
-			}
-		}
-	}
 `
 
 const NotesApp = () => {
@@ -170,28 +118,12 @@ const NotesApp = () => {
 					<Button icon='trash alternate outline' onClick={handleRemoveNote}/>
 				</AlignBtns>
 			</Header>
-			<Wrapper>
-				<Sidebar>
-					<List celled>
-						{
-							notesArr?.map((item,i) => (
-								<List.Item
-									key={item[i]}
-									active={`${item.active ? 'active' : ''}`}
-									onClick={() => handleActive(i)}>
-									<List.Content className="list-content">
-										<List.Header>{!item.content ? 'New Note': item.heading}</List.Header>
-										{item.content}
-									</List.Content>
-								</List.Item>
-							)).reverse()
-						}
-					</List>
-				</Sidebar>
-				<Note activeNote={getActiveNote()} updateNotes={handleUpdateNotes}></Note>
+			<FlexWrapper>
+				<Sidebar notesArr={notesArr} handleActive={handleActive}/>
+				<Note activeNote={getActiveNote()} updateNotes={handleUpdateNotes}/>
 				{/*<NoteArea>
 				</NoteArea>*/}
-			</Wrapper>
+			</FlexWrapper>
 		</>
 	)
 }
