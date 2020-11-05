@@ -9,6 +9,7 @@ import styled from 'styled-components'
 //import { ADD_TODO, REMOVE_TODO } from '../../actionTypes'
 //import { notes } from '../../actions'
 import '../../scss/index.scss'
+import useActiveKey from "../../hooks/useActiveKey";
 
 const AlignBtns = styled.div`
 	display:flex;
@@ -31,13 +32,13 @@ const NotesApp = () => {
 		}
 	])
 	const notesLength = notesArr.length
+	const activeKey = useActiveKey(notesArr);
 
 
 	const handleAddNote = note => {
 		const newList = [...notesArr]
 		if(notesArr.length) {
-			const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
-			newList[currentActiveKey].active = false
+			newList[activeKey].active = false
 		}
 
 		newList[notesArr.length] = {
@@ -107,9 +108,8 @@ const NotesApp = () => {
 	const handleUpdateNotes = editedNote => {
 		console.log('update')
 		//todo: create a fn and call everywhere you need to find active note or rather key
-		const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
 		const newList = [...notesArr]
-		newList[currentActiveKey] = editedNote
+		notesArr[activeKey] = editedNote
 		setNotesArr(newList)
 	}
 
@@ -124,7 +124,7 @@ const NotesApp = () => {
 			<FlexWrapper>
 				<Sidebar notesArr={notesArr} handleActive={handleActive}>
 				</Sidebar>
-				<Note activeNote={getActiveNote()} updateNotes={handleUpdateNotes}/>
+				<Note activeNote={notesArr[activeKey]} updateNotes={handleUpdateNotes}/>
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</FlexWrapper>
