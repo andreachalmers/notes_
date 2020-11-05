@@ -9,9 +9,13 @@ import styled from 'styled-components'
 //import { ADD_TODO, REMOVE_TODO } from '../../actionTypes'
 //import { notes } from '../../actions'
 import '../../scss/index.scss'
+import useActiveKey from "../../hooks/useActiveKey";
 
 const AlignBtns = styled.div`
+	display:flex;
 	margin-left: auto;
+	justify-content: flex-end;
+	margin-right: ${props => props.marginRight ? props.marginRight : 0};
 `
 
 const NotesApp = () => {
@@ -28,13 +32,13 @@ const NotesApp = () => {
 		}
 	])
 	const notesLength = notesArr.length
+	const activeKey = useActiveKey(notesArr);
 
 
 	const handleAddNote = note => {
 		const newList = [...notesArr]
 		if(notesArr.length) {
-			const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
-			newList[currentActiveKey].active = false
+			newList[activeKey].active = false
 		}
 
 		newList[notesArr.length] = {
@@ -102,25 +106,25 @@ const NotesApp = () => {
 	}
 
 	const handleUpdateNotes = editedNote => {
+		console.log('update')
 		//todo: create a fn and call everywhere you need to find active note or rather key
-		const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
 		const newList = [...notesArr]
-		newList[currentActiveKey] = editedNote
+		notesArr[activeKey] = editedNote
 		setNotesArr(newList)
 	}
 
 	return (
 		<>
-			<Header>
-				<h1 className='heading'>Notes</h1>
-				<AlignBtns>
+			<Header heading="Notes">
+				<AlignBtns marginRight="8px">
 					<Button icon='compose' color="red" onClick={handleAddNote}/>
 					<Button icon='trash alternate outline' onClick={handleRemoveNote}/>
 				</AlignBtns>
 			</Header>
 			<FlexWrapper>
-				<Sidebar notesArr={notesArr} handleActive={handleActive}/>
-				<Note activeNote={getActiveNote()} updateNotes={handleUpdateNotes}/>
+				<Sidebar notesArr={notesArr} handleActive={handleActive}>
+				</Sidebar>
+				<Note activeNote={notesArr[activeKey]} updateNotes={handleUpdateNotes}/>
 				{/*<NoteArea>
 				</NoteArea>*/}
 			</FlexWrapper>
