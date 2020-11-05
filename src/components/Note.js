@@ -25,7 +25,7 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 	const input = '# This is a header\n\nAnd this is a paragraph'
 
 	useEffect(() => {
-		setNote(md)
+		//setNote(md)
 	}, [activeNote, md])
 
 	const _renderNote = () => {
@@ -67,7 +67,7 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 			content: value,
 			active: true,
 		}
-		updateNotes(obj)
+		//updateNotes(obj)
 	})
 
 	const handleChange = e => {
@@ -76,8 +76,8 @@ const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
 		const endOfHeading = value.indexOf("\n")
 		let heading = !value ? 'New Note' : value.slice(0, endOfHeading)
 		//let content = value.slice(endOfHeading, (value.length - 1))
-		//setNote(value)
-		handleEdit(value)
+		setNote(value)
+		//handleEdit(value)
 	}
 
 	return (

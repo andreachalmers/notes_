@@ -105,6 +105,7 @@ const NotesApp = () => {
 	}
 
 	const handleUpdateNotes = editedNote => {
+		console.log('update')
 		//todo: create a fn and call everywhere you need to find active note or rather key
 		const currentActiveKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
 		const newList = [...notesArr]
