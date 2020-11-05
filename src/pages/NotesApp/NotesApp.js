@@ -10,6 +10,7 @@ import styled from 'styled-components'
 //import { notes } from '../../actions'
 import '../../scss/index.scss'
 import useActiveKey from "../../hooks/useActiveKey";
+import Sidebar2 from "../../components/organisms/Sidebar2";
 
 const AlignBtns = styled.div`
 	display:flex;
@@ -108,14 +109,18 @@ const NotesApp = () => {
 	const handleUpdateNotes = editedNote => {
 		console.log('update')
 		//todo: create a fn and call everywhere you need to find active note or rather key
-		const newList = [...notesArr]
+		const newList = [...notesArr]/**/
 		notesArr[activeKey] = editedNote
 		setNotesArr(newList)
 	}
 
 	return (
 		<>
-			<Header heading="Notes">
+			<FlexWrapper>
+				<Sidebar2 notesArr={notesArr} handleActive={handleActive} addNote={handleAddNote}/>
+			</FlexWrapper>
+
+			{/*<Header heading="Notes">
 				<AlignBtns marginRight="8px">
 					<Button icon='compose' color="red" onClick={handleAddNote}/>
 					<Button icon='trash alternate outline' onClick={handleRemoveNote}/>
@@ -125,9 +130,9 @@ const NotesApp = () => {
 				<Sidebar notesArr={notesArr} handleActive={handleActive}>
 				</Sidebar>
 				<Note activeNote={notesArr[activeKey]} updateNotes={handleUpdateNotes}/>
-				{/*<NoteArea>
-				</NoteArea>*/}
-			</FlexWrapper>
+				<NoteArea>
+				</NoteArea>
+			</FlexWrapper>*/}
 		</>
 	)
 }
