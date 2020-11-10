@@ -13,6 +13,7 @@ import useActiveKey from "../../hooks/useActiveKey";
 import Sidebar2 from "../../components/organisms/Sidebar2";
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
+import ListItem from "../../components/atoms/ListItem";
 
 const AlignBtns = styled.div`
 	display:flex;
@@ -58,6 +59,7 @@ const NotesApp = () => {
 	}
 
 	const handleActive = i => {
+		console.log('juhu')
 		//todo:by default last item in arr should be active note unless clicked on another in sidebar
 		//todo: if the top most item is active and  you click it again it should not toggle but stay active
 
@@ -115,16 +117,34 @@ const NotesApp = () => {
 		notesArr[activeKey] = editedNote
 		setNotesArr(newList)
 	}
+	const _renderNotesList = () => {
+		return (
+			<ul>
+				{
+					notesArr?.map((item,i) => (
+						<ListItem
+							key={item[i]}
+							active={`${item.active ? 'active' : ''}`}
+							onClick={() => handleActive(i)}
+							heading={!item.content ? 'New Note': item.heading}
+							content={item.content}
+						/>
+					)).reverse()
+				}
+			</ul>
+		);
+	}
 
 	return (
 		<>
 			<FlexWrapper>
 				<MainNavbar/>
-				<Sidebar2 notesArr={notesArr} handleActive={handleActive} addNote={handleAddNote}/>
+				<Sidebar2 addNote={handleAddNote}>
+					{_renderNotesList()}
+				</Sidebar2>
 				<NoteWrapper>
 				</NoteWrapper>
 			</FlexWrapper>
-
 			{/*<Header heading="Notes">
 				<AlignBtns marginRight="8px">
 					<Button icon='compose' color="red" onClick={handleAddNote}/>
