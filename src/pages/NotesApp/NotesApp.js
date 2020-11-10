@@ -121,7 +121,8 @@ const NotesApp = () => {
 			<FlexWrapper>
 				<MainNavbar/>
 				<Sidebar2 notesArr={notesArr} handleActive={handleActive} addNote={handleAddNote}/>
-				<NoteWrapper/>
+				<NoteWrapper>
+				</NoteWrapper>
 			</FlexWrapper>
 
 			{/*<Header heading="Notes">
