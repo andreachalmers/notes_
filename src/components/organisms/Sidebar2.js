@@ -55,7 +55,7 @@ const SidebarHeader = styled.header`
 	
 `;
 
-const Sidebar2 = ({notesArr, handleActive, addNote, children}) => {
+const Sidebar2 = ({addNote, children}) => {
 	return (
 		<SidebarContainer>
 			<SidebarHeader>
