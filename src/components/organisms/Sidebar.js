@@ -27,8 +27,7 @@ const SidebarContainer = styled.aside`
 			}
 		}
 	}
-`
-
+`;
 
 const Sidebar = ({notesArr, handleActive, children}) => {
 	return (

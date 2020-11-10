@@ -38,7 +38,10 @@ const SidebarContainer = styled.aside`
 		}
 	
 	}
-
+	
+	ul { padding-left: 0;
+		margin: 0;
+	}
 `;
 
 
@@ -52,27 +55,14 @@ const SidebarHeader = styled.header`
 	
 `;
 
-const Sidebar2 = ({notesArr, handleActive, addNote}) => {
+const Sidebar2 = ({notesArr, handleActive, addNote, children}) => {
 	return (
 		<SidebarContainer>
 			<SidebarHeader>
 				<Search placeholder="Search notes" fluid size={"small"} />
 				<Icon name="write square"  onClick={addNote} color={"red"} size={"big"} style={{position: 'relative', top: '4px'}}/>
 			</SidebarHeader>
-			<List celled>
-				{
-					notesArr?.map((item,i) => (
-						<ListItem
-							key={item[i]}
-							active={`${item.active ? 'active' : ''}`}
-							onClick={() => handleActive(i)}
-							heading={!item.content ? 'New Note': item.heading}
-							content={item.content}
-						>
-						</ListItem>
-					)).reverse()
-				}
-			</List>
+			{children}
 		</SidebarContainer>
 	)
 }

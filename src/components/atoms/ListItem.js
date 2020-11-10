@@ -7,7 +7,7 @@ import React from "react";
 	
 `;*/
 
-const ListItemWrapper = styled.li`
+const ListItemWrapper = styled.div`
 	padding: 8px 8px 8px 26px;
 	list-style: none;
 	position: absolute;
@@ -16,24 +16,34 @@ const ListItemWrapper = styled.li`
 	color: var(--color3);
 	width: calc(100% + 20px);
 	height: 100%;
+	cursor: pointer;
+	
+	&.active {
+		background-color: var(--color6);
+	}
 `;
-const Borders = styled.div`
+const Borders = styled.li`
 	border-bottom: 1px solid;
 	border-color: var(--color4);
 	position: relative;
 	margin-left: 20px;
 	height: 80px;
 	max-height: 160px;
-
 	
 	&::before {
 		content: '';
 		height: 100%;
-		background-color: ${props => props.active ? '#f6cc76' : '#20232e'};
+		background-color: #20232e;
 		position: absolute;
 		z-index: 200;
-		width: 6px;
+		width: 4px;
 		left: -20px;
+	}
+	
+	&.active {		
+		&::before {
+			background-color: #f6cc76;
+		}
 	}
 `;
 const Heading = styled.h3`
@@ -41,10 +51,11 @@ const Heading = styled.h3`
 	margin-bottom: 8px;
 `;
 
-const ListItem = ({heading, content}) => {
+const ListItem = ({heading, content, active, onClick}) => {
+	const classes = active ? "active": ""
 	return (
-		<Borders>
-			<ListItemWrapper>
+		<Borders className={classes} onClick={onClick}>
+			<ListItemWrapper className={classes}>
 				<Heading>{heading}</Heading>
 				<p>{content}</p>
 			</ListItemWrapper>
