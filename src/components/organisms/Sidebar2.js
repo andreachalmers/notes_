@@ -8,6 +8,7 @@ const SidebarContainer = styled.aside`
 	border-right: 1px solid var(--color4);
 	height: 100vh;
 	background: var(--color1);
+
 	width: 20%;
 	min-width: 300px;
 	overflow: hidden;

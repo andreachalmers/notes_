@@ -11,6 +11,8 @@ import styled from 'styled-components'
 import '../../scss/index.scss'
 import useActiveKey from "../../hooks/useActiveKey";
 import Sidebar2 from "../../components/organisms/Sidebar2";
+import MainNavbar from "../../components/organisms/MainNavbar";
+import NoteWrapper from "../../components/molecules/NoteWrapper";
 
 const AlignBtns = styled.div`
 	display:flex;
@@ -117,7 +119,9 @@ const NotesApp = () => {
 	return (
 		<>
 			<FlexWrapper>
+				<MainNavbar/>
 				<Sidebar2 notesArr={notesArr} handleActive={handleActive} addNote={handleAddNote}/>
+				<NoteWrapper/>
 			</FlexWrapper>
 
 			{/*<Header heading="Notes">

@@ -14,6 +14,6 @@ const TextArea = styled.textarea`
   &.hidden {
   	//visibility: hidden;
   }
-`
+`;
 
 export default TextArea
