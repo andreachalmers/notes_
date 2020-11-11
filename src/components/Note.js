@@ -4,6 +4,7 @@ import TextArea from '../components/atoms/TextArea';
 import ReactMarkdown from 'react-markdown';
 import styled from "styled-components";
 import '../scss/components/_Note.scss'
+import useObjToStr from "../hooks/useStringify";
 
 const NoteArea = styled.div`
 	width: calc(70% - var(--borderWidth));
@@ -19,7 +20,7 @@ const NoteArea = styled.div`
 `
 
 const Note = ({addNote, activeNote, updateNotes, notes, children }) => {
-	const md = activeNote ? Object.values(activeNote).filter(item => item!== true ).join('\n\n') : ''
+	const md = useObjToStr(activeNote)
 	console.log('rerendering',md)
 	const [note,setNote] = useState(md)
 	const input = '# This is a header\n\nAnd this is a paragraph'

@@ -14,6 +14,7 @@ import Sidebar2 from "../../components/organisms/Sidebar2";
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
+import ReactMarkdown from "react-markdown";
 
 const AlignBtns = styled.div`
 	display:flex;
@@ -59,13 +60,11 @@ const NotesApp = () => {
 	}
 
 	const handleActive = i => {
-		console.log('juhu')
 		//todo:by default last item in arr should be active note unless clicked on another in sidebar
 		//todo: if the top most item is active and  you click it again it should not toggle but stay active
 
 		//todo: if active is clicked again remain active
 		let newArr = notesArr
-		console.log(notesArr[i].active)
 
 		newArr[i].active = true
 		//when one is active make all others inactive/false
@@ -142,7 +141,9 @@ const NotesApp = () => {
 				<Sidebar2 addNote={handleAddNote}>
 					{_renderNotesList()}
 				</Sidebar2>
-				<NoteWrapper>
+				<NoteWrapper activeNote={notesArr[activeKey]}>
+					{/*<ReactMarkdown source={'# This is a header\n\nAnd this is a paragraph'}/>*/}
+					<Note activeNote={notesArr[activeKey]}/>
 				</NoteWrapper>
 			</FlexWrapper>
 			{/*<Header heading="Notes">

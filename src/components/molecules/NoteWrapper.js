@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import DoodleImg from "../../images/hiclipart.com.svg";
 import DoodleImg2 from "../../images/unnamed.png";
+import useObjToStr from "../../hooks/useStringify";
+import ReactMarkdown from "react-markdown";
 
 const Doodle = styled.img`
 	position: absolute;
@@ -25,6 +27,12 @@ const SVG = styled.svg`
 	}
 `;
 
+const Note = styled.main`
+	padding: 68px;
+	color: var(--color3);
+	
+`;
+
 const _renderPlaceholder = () => {
 	return (
 		<SVG version="1.0" xmlns="http://www.w3.org/2000/svg" width="752" height="816" viewBox="0 0 564 612">
@@ -45,13 +53,20 @@ const _renderPlaceholder = () => {
 		</SVG>
 	);
 }
+//may become note replacement to avoid too much nesting
+const NoteWrapper = ({children, activeNote}) => {
+	const currentNote = useObjToStr(activeNote)
+	const [item, setItem] = useState(currentNote)
 
-const NoteWrapper = ({children}) => {
+	useEffect(() => {
+		setItem(currentNote)
+	}, [activeNote, currentNote])
+
 	return (
-		<main style={{position: "relative", minWidth: '70%'}}>
+		<Note style={{position: "relative", minWidth: '70%'}}>
 			{/*<Doodle src={DoodleImg}/>*/}
-			{!children ? _renderPlaceholder() : children}
-		</main>
+			{activeNote ? <ReactMarkdown source={item}/> : _renderPlaceholder()}
+		</Note>
 	);
 }
 
