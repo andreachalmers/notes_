@@ -51,9 +51,12 @@ const SidebarHeader = styled.header`
 	justify-content: space-around;
 	align-items: centers;
 	border-bottom: 1px solid var(--color4);
-	
-	
+	position: sticky;
+	top: 0;
+	z-index: 400;
+	background-color: var(--color1);
 `;
+//@todo: box shadow when scrolling
 
 const Sidebar2 = ({addNote, children}) => {
 	return (
