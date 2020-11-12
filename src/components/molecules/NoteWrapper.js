@@ -4,6 +4,7 @@ import DoodleImg from "../../images/hiclipart.com.svg";
 import DoodleImg2 from "../../images/unnamed.png";
 import useObjToStr from "../../hooks/useStringify";
 import ReactMarkdown from "react-markdown";
+import TextArea from "../atoms/TextArea";
 
 const Doodle = styled.img`
 	position: absolute;
@@ -28,9 +29,26 @@ const SVG = styled.svg`
 `;
 
 const Note = styled.main`
+	//padding: 68px;
+	color: var(--color3);
+	font-size: 16px;
+
+	.reactmd,
+	textarea {
+		padding: 68px;
+	}
+`;
+
+const TextArea2 = styled.textarea`
 	padding: 68px;
 	color: var(--color3);
-	
+	border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  
+  min-width: 100%;
+  min-height: 100vh;
 `;
 
 const _renderPlaceholder = () => {
@@ -53,19 +71,55 @@ const _renderPlaceholder = () => {
 		</SVG>
 	);
 }
+
+
 //may become note replacement to avoid too much nesting
-const NoteWrapper = ({children, activeNote}) => {
+const NoteWrapper = ({children, activeNote, han}) => {
 	const currentNote = useObjToStr(activeNote)
 	const [item, setItem] = useState(currentNote)
+	const [isEditing, setIsEditing] = useState(false);
 
 	useEffect(() => {
 		setItem(currentNote)
 	}, [activeNote, currentNote])
 
+/*	useEffect(() => {
+		if(isEditing === true) {
+			setTimeout(setIsEditing(false), 50000); //todo: remove this, demonstrating
+		}
+	}, [isEditing])*/
+
+	const handleChange = e => {
+		const value = e.target.value
+		// todo: sep heading and content here instead
+		const endOfHeading = value.indexOf("\n")
+		let heading = !value ? 'New Note' : value.slice(0, endOfHeading)
+		//let content = value.slice(endOfHeading, (value.length - 1))
+		setItem(value)
+		//handleEdit(value)
+	}
+	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
-		<Note style={{position: "relative", minWidth: '70%'}}>
+		<Note style={{position: "relative", minWidth: '70%'}} onClick={() => setIsEditing(true)}>
 			{/*<Doodle src={DoodleImg}/>*/}
-			{activeNote ? <ReactMarkdown source={item}/> : _renderPlaceholder()}
+			{/*{isEditing.toString() + item}*/}
+			{!isEditing ?
+				<ReactMarkdown source={item} className="reactmd"/> :
+				<TextArea2
+					value={item}
+					placeholder="Well what are you waiting for? Get typing..."
+					onChange={e => handleChange(e)} //move to TextArea component later
+					//onFocus={()=>setIsEditing(true)}
+					onBlur={()=>setIsEditing(false)}
+				/>
+				/*<TextArea
+					id="editor"
+					onChange={e => handleChange(e)}
+					value={item}
+					placeholder="Well what are you waiting for? Get typing..."
+				/>*/
+			}
+			{!activeNote ? _renderPlaceholder() : ''}
 		</Note>
 	);
 }
