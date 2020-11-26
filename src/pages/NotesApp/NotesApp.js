@@ -109,13 +109,13 @@ const NotesApp = () => {
 		}
 	}
 
-	const handleUpdateNotes = editedNote => {
+	/*const handleUpdateNotes = editedNote => {
 		console.log('update')
 		//todo: create a fn and call everywhere you need to find active note or rather key
-		const newList = [...notesArr]/**/
+		const newList = [...notesArr]/!**!/
 		notesArr[activeKey] = editedNote
 		setNotesArr(newList)
-	}
+	}*/
 	const _renderNotesList = () => {
 		return (
 			<ul>
@@ -134,6 +134,15 @@ const NotesApp = () => {
 		);
 	}
 
+	const handleUpdateNotes = (note, key) => {
+		let newList = [...notesArr]
+		newList[key] = {
+			content: note,
+			active: true,
+		}
+
+		setNotesArr(newList)
+	}
 	return (
 		<>
 			<FlexWrapper>
@@ -141,9 +150,8 @@ const NotesApp = () => {
 				<Sidebar2 addNote={handleAddNote}>
 					{_renderNotesList()}
 				</Sidebar2>
-				<NoteWrapper activeNote={notesArr[activeKey]}>
+				<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}>
 					{/*<ReactMarkdown source={'# This is a header\n\nAnd this is a paragraph'}/>*/}
-					<Note activeNote={notesArr[activeKey]}/>
 				</NoteWrapper>
 			</FlexWrapper>
 			{/*<Header heading="Notes">

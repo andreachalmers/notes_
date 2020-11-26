@@ -74,7 +74,7 @@ const _renderPlaceholder = () => {
 
 
 //may become note replacement to avoid too much nesting
-const NoteWrapper = ({children, activeNote, han}) => {
+const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	const currentNote = useObjToStr(activeNote)
 	const [item, setItem] = useState(currentNote)
 	const [isEditing, setIsEditing] = useState(false);
@@ -101,6 +101,7 @@ const NoteWrapper = ({children, activeNote, han}) => {
 	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
 		<Note style={{position: "relative", minWidth: '70%'}} onClick={() => setIsEditing(true)}>
+			<button onClick={() => updateNotes(item,activeKey)}>Save</button>
 			{/*<Doodle src={DoodleImg}/>*/}
 			{/*{isEditing.toString() + item}*/}
 			{!isEditing ?
@@ -111,6 +112,7 @@ const NoteWrapper = ({children, activeNote, han}) => {
 					onChange={e => handleChange(e)} //move to TextArea component later
 					//onFocus={()=>setIsEditing(true)}
 					onBlur={()=>setIsEditing(false)}
+					onMouseOut={()=>setIsEditing(false)}
 				/>
 				/*<TextArea
 					id="editor"
