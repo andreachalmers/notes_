@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, {useEffect, useState, useRef, useCallback} from 'react'
 import Note from '../../components/Note'
 import Header from '../../components/organisms/Header'
 import Sidebar from '../../components/organisms/Sidebar'
@@ -14,6 +14,8 @@ import Sidebar2 from "../../components/organisms/Sidebar2";
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
+import data from  "../../index.json";
+
 import ReactMarkdown from "react-markdown";
 
 const AlignBtns = styled.div`
@@ -26,44 +28,76 @@ const AlignBtns = styled.div`
 const NotesApp = () => {
 	const [notesArr, setNotesArr] = useState([
 		{
-			heading: '# Snickerdoodle',
+			//heading: '# Snickerdoodle',
 			content: 'An excellent companion',
 			active: false,
 		},
 		{
-			heading: '# Lorem Ipsum',
+			//heading: '# Lorem Ipsum',
 			content: 'Hipster ipsum bacon coffee',
 			active: true,
 		}
-	])
-	const notesLength = notesArr.length
+	]);
+	const notesLength = notesArr.length;
 	const activeKey = useActiveKey(notesArr);
 
+	const getData = () => {
+		fetch('index.json'
+			,{
+				headers : {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				}
+			}
+		)
+			.then(function(response){
+				console.log(response)
+				return response.json();
+			})
+			.then(function(data) {
+				console.log(data);
+				setNotesArr(data.notes)
+			});
+	}
+
+	useEffect(()=>{
+		getData()
+	},[])
 
 	const handleAddNote = note => {
 		const newList = [...notesArr]
+		console.log(activeKey)
+		//todo: increment activeKey
+		//todo:just make activeKey a state in this component
 		if(notesArr.length) {
 			newList[activeKey].active = false
 		}
 
 		newList[notesArr.length] = {
-			heading: `# Note ${notesArr.length + 1}`,
-			content: "content",
+			heading: "# A wonderful new note",
+			content: "Keep calm and write something",
 			active: true,
 		}
-
 		setNotesArr(newList)
 	}
 
-	const handleSave = () => {
-
+	const handleSave = note => {
+		console.log(note, 'save')
+		const newarr = [...notesArr]
+		newarr[activeKey].content = note
+		//todo: fix active key
+		setNotesArr(newarr)
+		/*const activeKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
+		//remove hook doesnt work
+		console.log('saving', activeKey)
+		const newList = notesArr;
+		newList[activeKey].content = note
+		newList.map(item => !item[activeKey] ? item.active = false : '');
+		newList[activeKey].active = true
+		setNotesArr(newList)*/
 	}
 
 	const handleActive = i => {
-		//todo:by default last item in arr should be active note unless clicked on another in sidebar
-		//todo: if the top most item is active and  you click it again it should not toggle but stay active
-
-		//todo: if active is clicked again remain active
 		let newArr = notesArr
 
 		newArr[i].active = true
@@ -109,14 +143,7 @@ const NotesApp = () => {
 		}
 	}
 
-	/*const handleUpdateNotes = editedNote => {
-		console.log('update')
-		//todo: create a fn and call everywhere you need to find active note or rather key
-		const newList = [...notesArr]/!**!/
-		notesArr[activeKey] = editedNote
-		setNotesArr(newList)
-	}*/
-	const _renderNotesList = () => {
+	const _renderNotesList = useCallback(() => {
 		return (
 			<ul>
 				{
@@ -125,14 +152,14 @@ const NotesApp = () => {
 							key={item[i]}
 							active={`${item.active ? 'active' : ''}`}
 							onClick={() => handleActive(i)}
-							heading={!item.content ? 'New Note': item.heading}
+							heading={item.heading}
 							content={item.content}
 						/>
 					)).reverse()
 				}
 			</ul>
 		);
-	}
+	})
 
 	const handleUpdateNotes = (note, key) => {
 		let newList = [...notesArr]

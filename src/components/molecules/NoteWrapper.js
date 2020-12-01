@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
+import _ from "lodash";
 import DoodleImg from "../../images/hiclipart.com.svg";
 import DoodleImg2 from "../../images/unnamed.png";
 import useObjToStr from "../../hooks/useStringify";
 import ReactMarkdown from "react-markdown";
 import TextArea from "../atoms/TextArea";
+import useDebounce from "../../hooks/useDebounce";
 
 const Doodle = styled.img`
 	position: absolute;
@@ -36,6 +38,8 @@ const Note = styled.main`
 	.reactmd,
 	textarea {
 		padding: 68px;
+		height: 100vh;
+		overflow:auto;
 	}
 `;
 
@@ -78,16 +82,29 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	const currentNote = useObjToStr(activeNote)
 	const [item, setItem] = useState(currentNote)
 	const [isEditing, setIsEditing] = useState(false);
+	const [debouncedState, setDebouncedState] = useState("");
 
 	useEffect(() => {
-		setItem(currentNote)
-	}, [activeNote, currentNote])
+		if(!isEditing)
+			setItem(currentNote)
+	}, [currentNote, isEditing])
+
 
 /*	useEffect(() => {
-		if(isEditing === true) {
-			setTimeout(setIsEditing(false), 50000); //todo: remove this, demonstrating
+		if(isEditing) {
+			setTimeout(()=>setIsEditing(false), 5000); //todo: remove this, demonstrating
+			console.log('timeout')
 		}
 	}, [isEditing])*/
+
+	const debounce = useCallback(
+		_.debounce((input: string) => {
+			setDebouncedState(input);
+			//updateNotes(input, activeKey)
+
+		}, 1000),
+		[]
+	);
 
 	const handleChange = e => {
 		const value = e.target.value
@@ -96,23 +113,29 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 		let heading = !value ? 'New Note' : value.slice(0, endOfHeading)
 		//let content = value.slice(endOfHeading, (value.length - 1))
 		setItem(value)
+		debounce(value)
 		//handleEdit(value)
+	}
+	const handleOnMouseOut = () => {
+		updateNotes(item,activeKey)
+		setIsEditing(false)
 	}
 	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
 		<Note style={{position: "relative", minWidth: '70%'}} onClick={() => setIsEditing(true)}>
-			<button onClick={() => updateNotes(item,activeKey)}>Save</button>
+			{/*<button onClick={() => updateNotes(item,activeKey)}>Save</button>*/}
 			{/*<Doodle src={DoodleImg}/>*/}
-			{/*{isEditing.toString() + item}*/}
+			{`${isEditing.toString()}, received:${currentNote}, state: ${item}`}
+			<p>{debouncedState}</p>
 			{!isEditing ?
 				<ReactMarkdown source={item} className="reactmd"/> :
 				<TextArea2
 					value={item}
-					placeholder="Well what are you waiting for? Get typing..."
+					placeholder="Keep calm and write something"
 					onChange={e => handleChange(e)} //move to TextArea component later
-					//onFocus={()=>setIsEditing(true)}
+					onFocus={()=>setIsEditing(true)}
 					onBlur={()=>setIsEditing(false)}
-					onMouseOut={()=>setIsEditing(false)}
+					onMouseOut={()=>handleOnMouseOut()}
 				/>
 				/*<TextArea
 					id="editor"
