@@ -127,6 +127,7 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 			{/*<Doodle src={DoodleImg}/>*/}
 			{`${isEditing.toString()}, received:${currentNote}, state: ${item}`}
 			<p>{debouncedState}</p>
+			<p>{activeKey}</p>
 			{!isEditing ?
 				<ReactMarkdown source={item} className="reactmd"/> :
 				<TextArea2

@@ -174,6 +174,7 @@ const NotesApp = () => {
 		<>
 			<FlexWrapper>
 				<MainNavbar/>
+				<p style={{color: 'deeppink'}}>{activeKey}</p>
 				<Sidebar2 addNote={handleAddNote}>
 					{_renderNotesList()}
 				</Sidebar2>
