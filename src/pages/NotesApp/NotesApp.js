@@ -26,38 +26,23 @@ const AlignBtns = styled.div`
 `
 
 const NotesApp = () => {
-	const [notesArr, setNotesArr] = useState([
-		{
-			heading: '# Snickerdoodle',
-			content: 'An excellent companion',
-			active: false,
-		},
-		{
-			heading: '# Lorem Ipsum',
-			content: 'Hipster ipsum bacon coffee',
-			active: true,
-		}
-	]);
+	const [notesArr, setNotesArr] = useState([]);
 	const notesLength = notesArr.length;
 	const activeKey = useActiveKey(notesArr);
 
 	const getData = () => {
-		fetch('index.json'
-			,{
-				headers : {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json'
-				}
+		let url = "http://localhost:3001/notes"
+		fetch(url, {
+			headers : {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
 			}
-		)
-			.then(function(response){
-				console.log(response)
-				return response.json();
+		})
+			.then(resp => resp.json())
+			.then(data => {
+				console.log(data)
+				setNotesArr(data)
 			})
-			.then(function(data) {
-				console.log(data);
-				setNotesArr(data.notes)
-			});
 	}
 
 	useEffect(()=>{
@@ -174,7 +159,7 @@ const NotesApp = () => {
 		<>
 			<FlexWrapper>
 				<MainNavbar/>
-				<p style={{color: 'deeppink'}}>{activeKey}</p>
+				{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
 				<Sidebar2 addNote={handleAddNote}>
 					{_renderNotesList()}
 				</Sidebar2>

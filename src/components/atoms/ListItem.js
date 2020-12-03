@@ -45,6 +45,11 @@ const Borders = styled.li`
 			background-color: #f6cc76;
 		}
 	}
+	
+	div {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 `;
 const Heading = styled.h3`
 	font-weight: bold;

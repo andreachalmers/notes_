@@ -120,14 +120,21 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 		updateNotes(item,activeKey)
 		setIsEditing(false)
 	}
+
+	const handleOnClick = () => {
+		if(activeKey !== undefined)
+		setIsEditing(true)
+	}
+
 	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
-		<Note style={{position: "relative", minWidth: '70%'}} onClick={() => setIsEditing(true)}>
+		<Note style={{position: "relative", minWidth: '70%'}} onClick={() => handleOnClick()}>
+			{/*TESTING */}
 			{/*<button onClick={() => updateNotes(item,activeKey)}>Save</button>*/}
 			{/*<Doodle src={DoodleImg}/>*/}
-			{`${isEditing.toString()}, received:${currentNote}, state: ${item}`}
-			<p>{debouncedState}</p>
-			<p>{activeKey}</p>
+			{/*{`${isEditing.toString()}, received:${currentNote}, state: ${item}`}*/}
+			{/*<p>{debouncedState}</p>
+			<p>{activeKey}</p>*/}
 			{!isEditing ?
 				<ReactMarkdown source={item} className="reactmd"/> :
 				<TextArea2
