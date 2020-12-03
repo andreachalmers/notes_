@@ -35,6 +35,7 @@ const Note = styled.main`
 	color: var(--color3);
 	font-size: 16px;
 
+
 	.reactmd,
 	textarea {
 		padding: 68px;
@@ -50,9 +51,21 @@ const TextArea2 = styled.textarea`
   background-color: transparent;
   resize: none;
   outline: none;
+  line-height: 1.4285em;
   
   min-width: 100%;
   min-height: 100vh;
+  
+  ::selection {
+		background: var(--color3); /* WebKit/Blink Browsers */
+		color: var(--color1);
+		font-weight: bold;
+	}
+	::-moz-selection {
+		background: var(--color3); /* Gecko Browsers */
+		color: var(--color1);
+		font-weight: bold;
+	}
 `;
 
 const _renderPlaceholder = () => {
