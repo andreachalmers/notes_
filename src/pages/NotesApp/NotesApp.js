@@ -147,8 +147,10 @@ const NotesApp = () => {
 	})
 
 	const handleUpdateNotes = (note, key) => {
+		//put...
 		let newList = [...notesArr]
 		newList[key] = {
+
 			content: note,
 			active: true,
 		}
