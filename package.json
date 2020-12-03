@@ -24,7 +24,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "json-server": "json-server --watch db.json --port 3001"
+    "json-server": "json-server --watch db.json --port 3001",
+    "dev": "npm run json-server & npm run start"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
     "json-server": "^0.16.3",
     "node-sass": "^4.14.1",
     "sass-loader": "^10.0.2"
