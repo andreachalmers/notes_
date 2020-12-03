@@ -28,12 +28,12 @@ const AlignBtns = styled.div`
 const NotesApp = () => {
 	const [notesArr, setNotesArr] = useState([
 		{
-			//heading: '# Snickerdoodle',
+			heading: '# Snickerdoodle',
 			content: 'An excellent companion',
 			active: false,
 		},
 		{
-			//heading: '# Lorem Ipsum',
+			heading: '# Lorem Ipsum',
 			content: 'Hipster ipsum bacon coffee',
 			active: true,
 		}
