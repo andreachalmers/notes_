@@ -141,7 +141,7 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 
 	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
-		<Note style={{position: "relative", minWidth: '70%'}} onClick={() => handleOnClick()}>
+		<Note style={{position: "relative", width: '70%'}} onClick={() => handleOnClick()}>
 			{/*TESTING */}
 			{/*<button onClick={() => updateNotes(item,activeKey)}>Save</button>*/}
 			{/*<Doodle src={DoodleImg}/>*/}

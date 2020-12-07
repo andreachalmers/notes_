@@ -7,7 +7,7 @@ import React from 'react';
 
 const Nav = styled.nav`
 	background: var(--color5);
-	width: 10%;
+	width: 15%;
 	min-width: 200px;
 	height: 100vh;
 	color: var(--color3);

@@ -10,7 +10,7 @@ const SidebarContainer = styled.aside`
 	height: 100vh;
 	background: var(--color1);
 
-	width: 20%;
+	width: 15%;
 	min-width: 300px;
 	overflow: hidden;
 	overflow-y: scroll;
