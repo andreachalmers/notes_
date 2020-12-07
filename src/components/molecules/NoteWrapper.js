@@ -1,9 +1,12 @@
 import styled from "styled-components";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
+import _ from "lodash";
 import DoodleImg from "../../images/hiclipart.com.svg";
 import DoodleImg2 from "../../images/unnamed.png";
 import useObjToStr from "../../hooks/useStringify";
 import ReactMarkdown from "react-markdown";
+import TextArea from "../atoms/TextArea";
+import useDebounce from "../../hooks/useDebounce";
 
 const Doodle = styled.img`
 	position: absolute;
@@ -28,9 +31,41 @@ const SVG = styled.svg`
 `;
 
 const Note = styled.main`
+	//padding: 68px;
+	color: var(--color3);
+	font-size: 16px;
+
+
+	.reactmd,
+	textarea {
+		padding: 68px;
+		height: 100vh;
+		overflow:auto;
+	}
+`;
+
+const TextArea2 = styled.textarea`
 	padding: 68px;
 	color: var(--color3);
-	
+	border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  line-height: 1.4285em;
+  
+  min-width: 100%;
+  min-height: 100vh;
+  
+  ::selection {
+		background: var(--color3); /* WebKit/Blink Browsers */
+		color: var(--color1);
+		font-weight: bold;
+	}
+	::-moz-selection {
+		background: var(--color3); /* Gecko Browsers */
+		color: var(--color1);
+		font-weight: bold;
+	}
 `;
 
 const _renderPlaceholder = () => {
@@ -53,19 +88,84 @@ const _renderPlaceholder = () => {
 		</SVG>
 	);
 }
+
+
 //may become note replacement to avoid too much nesting
-const NoteWrapper = ({children, activeNote}) => {
+const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	const currentNote = useObjToStr(activeNote)
 	const [item, setItem] = useState(currentNote)
+	const [isEditing, setIsEditing] = useState(false);
+	const [debouncedState, setDebouncedState] = useState("");
 
 	useEffect(() => {
-		setItem(currentNote)
-	}, [activeNote, currentNote])
+		if(!isEditing)
+			setItem(currentNote)
+	}, [currentNote, isEditing])
 
+
+/*	useEffect(() => {
+		if(isEditing) {
+			setTimeout(()=>setIsEditing(false), 5000); //todo: remove this, demonstrating
+			console.log('timeout')
+		}
+	}, [isEditing])*/
+
+	const debounce = useCallback(
+		_.debounce((input: string) => {
+			setDebouncedState(input);
+			//updateNotes(input, activeKey)
+
+		}, 1000),
+		[]
+	);
+
+	const handleChange = e => {
+		const value = e.target.value
+		// todo: sep heading and content here instead
+		const endOfHeading = value.indexOf("\n")
+		let heading = !value ? 'New Note' : value.slice(0, endOfHeading)
+		//let content = value.slice(endOfHeading, (value.length - 1))
+		setItem(value)
+		debounce(value)
+		//handleEdit(value)
+	}
+	const handleOnMouseOut = () => {
+		updateNotes(item,activeKey)
+		setIsEditing(false)
+	}
+
+	const handleOnClick = () => {
+		if(activeKey !== undefined)
+		setIsEditing(true)
+	}
+
+	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
-		<Note style={{position: "relative", minWidth: '70%'}}>
+		<Note style={{position: "relative", minWidth: '70%'}} onClick={() => handleOnClick()}>
+			{/*TESTING */}
+			{/*<button onClick={() => updateNotes(item,activeKey)}>Save</button>*/}
 			{/*<Doodle src={DoodleImg}/>*/}
-			{activeNote ? <ReactMarkdown source={item}/> : _renderPlaceholder()}
+			{/*{`${isEditing.toString()}, received:${currentNote}, state: ${item}`}*/}
+			{/*<p>{debouncedState}</p>
+			<p>{activeKey}</p>*/}
+			{!isEditing ?
+				<ReactMarkdown source={item} className="reactmd"/> :
+				<TextArea2
+					value={item}
+					placeholder="Keep calm and write something"
+					onChange={e => handleChange(e)} //move to TextArea component later
+					onFocus={()=>setIsEditing(true)}
+					onBlur={()=>setIsEditing(false)}
+					onMouseOut={()=>handleOnMouseOut()}
+				/>
+				/*<TextArea
+					id="editor"
+					onChange={e => handleChange(e)}
+					value={item}
+					placeholder="Well what are you waiting for? Get typing..."
+				/>*/
+			}
+			{!activeNote ? _renderPlaceholder() : ''}
 		</Note>
 	);
 }
