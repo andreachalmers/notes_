@@ -52,7 +52,7 @@ const TextArea2 = styled.textarea`
   resize: none;
   outline: none;
   line-height: 1.4285em;
-  
+  font-size: 16px;
   min-width: 100%;
   min-height: 100vh;
   

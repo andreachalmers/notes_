@@ -148,10 +148,15 @@ const NotesApp = () => {
 
 	const handleUpdateNotes = (note, key) => {
 		//put...
+		const endOfHeading = note.search('\n')
+		const heading = note.slice(0, endOfHeading)
+		const content = note.slice(endOfHeading).trimStart()
+
+		console.log(heading, content)
 		let newList = [...notesArr]
 		newList[key] = {
-
-			content: note,
+			heading: heading,
+			content: content,
 			active: true,
 		}
 
