@@ -31,7 +31,7 @@ const NotesApp = () => {
 	const activeKey = useActiveKey(notesArr);
 
 	const getData = () => {
-		let url = "http://localhost:3001/notes"
+		let url = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
 		fetch(url, {
 			headers : {
 				'Content-Type': 'application/json',
