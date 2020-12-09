@@ -14,7 +14,7 @@ import Sidebar2 from "../../components/organisms/Sidebar2";
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
-import data from  "../../index.json";
+import data from "../../db.json";
 
 import ReactMarkdown from "react-markdown";
 
@@ -26,7 +26,7 @@ const AlignBtns = styled.div`
 `
 
 const NotesApp = () => {
-	const [notesArr, setNotesArr] = useState([]);
+	const [notesArr, setNotesArr] = useState(data.notes);
 	const notesLength = notesArr.length;
 	const activeKey = useActiveKey(notesArr);
 
