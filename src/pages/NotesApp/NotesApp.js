@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useCallback} from 'react'
+import React, {useState, useEffect} from 'react'
 import Note from '../../components/Note'
 import Header from '../../components/organisms/Header'
 import Sidebar from '../../components/organisms/Sidebar'
@@ -17,39 +17,35 @@ import ListItem from "../../components/atoms/ListItem";
 //import data from "../../db.json";
 
 import ReactMarkdown from "react-markdown";
-
-const AlignBtns = styled.div`
-	display:flex;
-	margin-left: auto;
-	justify-content: flex-end;
-	margin-right: ${props => props.marginRight ? props.marginRight : 0};
-`
+import useFetchData from "../../api/useFetchData";
 
 const NotesApp = () => {
-	const [notesArr, setNotesArr] = useState([]);
-	const notesLength = notesArr.length;
-	const activeKey = useActiveKey(notesArr);
+	console.log('render')
 
-	const getData = () => {
-		//"http://localhost:3001/notes"
-		let url = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
-		fetch(url, {
-			headers : {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			}
-		})
-			.then(resp => resp.json())
-			.then(data => {
-				console.log(data)
-				setNotesArr(data)
-			})
+	const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_"
+	const api = "http://localhost:3001/notes"
+	const userFetchResponse = useFetchData(api, {isLoading: true, data: []})
+	//const {data} = userFetchResponse;
+	const {notesArr, setNotesArr} = useFetchData(api, [])
+//const [notesArr, setNotesArr] = useState([{heading: 'loading...'}]);
+	//const notesLength = notesArr.length;
+	//const activeKey = Object.keys(notesArr)?.find(key => notesArr[key].active === true)
+
+	const [activeKey, setActiveKey ]= useState(0)
+
+	if(!userFetchResponse.data || userFetchResponse.isLoading) {
+		console.log('loading');
 	}
 
+	console.log(notesArr)
 	useEffect(()=>{
-		getData()
-	},[])
+		setActiveKey(Object.keys(notesArr).find(key => notesArr[key].active === true))
+		//setActiveKey(notesArr.length -1)
+	},[notesArr])
 
+	/*useEffect(()=>{
+		setNotesArr(notesArr)
+	}, [notesArr, setNotesArr])*/
 	const handleAddNote = note => {
 		const newList = [...notesArr]
 		console.log(activeKey)
@@ -100,7 +96,7 @@ const NotesApp = () => {
 
 	const getActiveNote = () => {
 		if(notesArr.length) {
-			const lastNote = notesArr[notesLength - 1]
+			const lastNote = notesArr[notesArr.length() - 1]
 			//todo: use this instead of setting activenode state
 			let activeNote = notesArr.filter(item => {
 				if(item.active === true)
@@ -110,14 +106,14 @@ const NotesApp = () => {
 		}
 	}
 
-	useEffect(()=> {
+/*	useEffect(()=> {
 		//console.log('hello')
 		const activeNote = notesArr.filter(item => {
 			if(item.active === true)
 				return item
 		})
 		//setActiveNote(activeNote)
-	}, [notesArr])
+	}, [notesArr])*/
 
 	const handleRemoveNote = () => {
 		if(notesArr.length) {
@@ -129,7 +125,7 @@ const NotesApp = () => {
 		}
 	}
 
-	const _renderNotesList = useCallback(() => {
+	const _renderNotesList = () => {
 		return (
 			<ul>
 				{
@@ -145,7 +141,7 @@ const NotesApp = () => {
 				}
 			</ul>
 		);
-	})
+	}
 
 	const handleUpdateNotes = (note, key) => {
 		//put...
