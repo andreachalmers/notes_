@@ -6,6 +6,7 @@ import '../../scss/index.scss'
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
+import LoaderExampleLoader from "../../components/atoms/Loader";
 //import data from "../../db.json";
 
 import useFetchData from "../../api/useFetchData";
@@ -13,9 +14,9 @@ import useFetchData from "../../api/useFetchData";
 const NotesApp = () => {
 	console.log('render')
 
-	const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_"
+	const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
 	const api = "http://localhost:3001/notes"
-	const {notesArr, setNotesArr} = useFetchData(api, [])
+	const {notesArr, setNotesArr, isLoading} = useFetchData(apiEndpoint, [])
 	const [activeKey, setActiveKey ]= useState(0)
 
 	useEffect(()=>{
@@ -100,14 +101,17 @@ const NotesApp = () => {
 	}
 	return (
 		<>
-			<FlexWrapper>
-				<MainNavbar/>
-				{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
-				<Sidebar addNote={handleAddNote}>
-					{_renderNotesList()}
-				</Sidebar>
-				<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}/>
-			</FlexWrapper>
+			{isLoading ?
+				<LoaderExampleLoader size="massive" className="loader"/>:
+				<FlexWrapper>
+					<MainNavbar/>
+					{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
+					<Sidebar addNote={handleAddNote}>
+						{_renderNotesList()}
+					</Sidebar>
+					<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}/>
+				</FlexWrapper>
+			}
 		</>
 	)
 }
