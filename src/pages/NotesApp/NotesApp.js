@@ -15,28 +15,14 @@ const NotesApp = () => {
 
 	const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_"
 	const api = "http://localhost:3001/notes"
-	const userFetchResponse = useFetchData(api, {isLoading: true, data: []})
-	//const {data} = userFetchResponse;
 	const {notesArr, setNotesArr} = useFetchData(api, [])
-//const [notesArr, setNotesArr] = useState([{heading: 'loading...'}]);
-	//const notesLength = notesArr.length;
-	//const activeKey = Object.keys(notesArr)?.find(key => notesArr[key].active === true)
-
 	const [activeKey, setActiveKey ]= useState(0)
 
-	if(!userFetchResponse.data || userFetchResponse.isLoading) {
-		console.log('loading');
-	}
-
-	console.log(notesArr)
 	useEffect(()=>{
 		setActiveKey(Object.keys(notesArr).find(key => notesArr[key].active === true))
 		//setActiveKey(notesArr.length -1)
 	},[notesArr])
 
-	/*useEffect(()=>{
-		setNotesArr(notesArr)
-	}, [notesArr, setNotesArr])*/
 	const handleAddNote = note => {
 		const newList = [...notesArr]
 		console.log(activeKey)
@@ -48,7 +34,7 @@ const NotesApp = () => {
 
 		newList[notesArr.length] = {
 			heading: "# A wonderful new note",
-			content: "Keep calm and write something",
+			content: "",
 			active: true,
 		}
 		setNotesArr(newList)
@@ -67,27 +53,6 @@ const NotesApp = () => {
 		})
 		setNotesArr([...notesArr],newArr)
 	}
-
-/*	const getActiveNote = () => {
-		if(notesArr.length) {
-			const lastNote = notesArr[notesArr.length() - 1]
-			//todo: use this instead of setting activenode state
-			let activeNote = notesArr.filter(item => {
-				if(item.active === true)
-					return item
-			})
-			return activeNote.length ? activeNote[0] : lastNote
-		}
-	}*/
-
-/*	useEffect(()=> {
-		//console.log('hello')
-		const activeNote = notesArr.filter(item => {
-			if(item.active === true)
-				return item
-		})
-		//setActiveNote(activeNote)
-	}, [notesArr])*/
 
 	const handleRemoveNote = () => {
 		if(notesArr.length) {
