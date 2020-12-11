@@ -113,7 +113,7 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	const debounce = useCallback(
 		_.debounce((input: string) => {
 			setDebouncedState(input);
-			updateNotes(input, activeKey)
+			//updateNotes(input, activeKey)
 
 		}, 1000),
 		[]
