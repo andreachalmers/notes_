@@ -1,13 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import Note from '../../components/Note'
-import Header from '../../components/organisms/Header'
 import Sidebar from '../../components/organisms/Sidebar'
-import React, {useEffect, useState, useRef, useCallback} from 'react'
 import FlexWrapper from "../../containers/FlexWrapper";
 import 'semantic-ui-css/semantic.min.css'
 import '../../scss/index.scss'
-import useActiveKey from "../../hooks/useActiveKey";
-import Sidebar from "../../components/organisms/Sidebar";
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
