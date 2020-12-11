@@ -7,6 +7,8 @@ import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
 import LoaderExampleLoader from "../../components/atoms/Loader";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+
 //import data from "../../db.json";
 
 import useFetchData from "../../api/useFetchData";
@@ -65,18 +67,31 @@ const NotesApp = () => {
 		}
 	}
 
+	const handleDelete = () => {
+		console.log('delete')
+	}
+
 	const _renderNotesList = () => {
 		return (
 			<ul>
 				{
 					notesArr?.map((item,i) => (
-						<ListItem
-							key={item[i]}
-							active={`${item.active ? 'active' : ''}`}
-							onClick={() => handleActive(i)}
-							heading={item.heading}
-							content={item.content}
-						/>
+						<>
+							<ContextMenuTrigger id="menu">
+								<ListItem
+									key={item[i]}
+									active={`${item.active ? 'active' : ''}`}
+									onClick={() => handleActive(i)}
+									heading={item.heading}
+									content={item.content}
+								/>
+							</ContextMenuTrigger>
+							<ContextMenu id="menu" className="rc-menu">
+								<MenuItem onClick={()=> handleDelete()} className="rc-menu__btn">
+									Delete
+								</MenuItem>
+							</ContextMenu>
+						</>
 					)).reverse()
 				}
 			</ul>
