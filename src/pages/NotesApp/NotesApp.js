@@ -2,21 +2,17 @@ import React, {useState, useEffect} from 'react'
 import Note from '../../components/Note'
 import Header from '../../components/organisms/Header'
 import Sidebar from '../../components/organisms/Sidebar'
+import React, {useEffect, useState, useRef, useCallback} from 'react'
 import FlexWrapper from "../../containers/FlexWrapper";
-import { List, Button } from "semantic-ui-react";
 import 'semantic-ui-css/semantic.min.css'
-import styled from 'styled-components'
-//import { ADD_TODO, REMOVE_TODO } from '../../actionTypes'
-//import { notes } from '../../actions'
 import '../../scss/index.scss'
 import useActiveKey from "../../hooks/useActiveKey";
-import Sidebar2 from "../../components/organisms/Sidebar2";
+import Sidebar from "../../components/organisms/Sidebar";
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
 //import data from "../../db.json";
 
-import ReactMarkdown from "react-markdown";
 import useFetchData from "../../api/useFetchData";
 
 const NotesApp = () => {
@@ -63,22 +59,6 @@ const NotesApp = () => {
 		setNotesArr(newList)
 	}
 
-	const handleSave = note => {
-		console.log(note, 'save')
-		const newarr = [...notesArr]
-		newarr[activeKey].content = note
-		//todo: fix active key
-		setNotesArr(newarr)
-		/*const activeKey = Object.keys(notesArr).find(key => notesArr[key].active === true)
-		//remove hook doesnt work
-		console.log('saving', activeKey)
-		const newList = notesArr;
-		newList[activeKey].content = note
-		newList.map(item => !item[activeKey] ? item.active = false : '');
-		newList[activeKey].active = true
-		setNotesArr(newList)*/
-	}
-
 	const handleActive = i => {
 		let newArr = notesArr
 
@@ -91,10 +71,9 @@ const NotesApp = () => {
 
 		})
 		setNotesArr([...notesArr],newArr)
-		//setActiveNote(notesArr[i])
 	}
 
-	const getActiveNote = () => {
+/*	const getActiveNote = () => {
 		if(notesArr.length) {
 			const lastNote = notesArr[notesArr.length() - 1]
 			//todo: use this instead of setting activenode state
@@ -104,7 +83,7 @@ const NotesApp = () => {
 			})
 			return activeNote.length ? activeNote[0] : lastNote
 		}
-	}
+	}*/
 
 /*	useEffect(()=> {
 		//console.log('hello')
@@ -164,26 +143,11 @@ const NotesApp = () => {
 			<FlexWrapper>
 				<MainNavbar/>
 				{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
-				<Sidebar2 addNote={handleAddNote}>
+				<Sidebar addNote={handleAddNote}>
 					{_renderNotesList()}
-				</Sidebar2>
-				<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}>
-					{/*<ReactMarkdown source={'# This is a header\n\nAnd this is a paragraph'}/>*/}
-				</NoteWrapper>
-			</FlexWrapper>
-			{/*<Header heading="Notes">
-				<AlignBtns marginRight="8px">
-					<Button icon='compose' color="red" onClick={handleAddNote}/>
-					<Button icon='trash alternate outline' onClick={handleRemoveNote}/>
-				</AlignBtns>
-			</Header>
-			<FlexWrapper>
-				<Sidebar notesArr={notesArr} handleActive={handleActive}>
 				</Sidebar>
-				<Note activeNote={notesArr[activeKey]} updateNotes={handleUpdateNotes}/>
-				<NoteArea>
-				</NoteArea>
-			</FlexWrapper>*/}
+				<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}/>
+			</FlexWrapper>
 		</>
 	)
 }

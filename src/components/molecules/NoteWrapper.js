@@ -1,72 +1,8 @@
-import styled from "styled-components";
 import React, {useEffect, useState, useCallback} from 'react';
 import _ from "lodash";
-import DoodleImg from "../../images/hiclipart.com.svg";
-import DoodleImg2 from "../../images/unnamed.png";
 import useObjToStr from "../../hooks/useStringify";
 import ReactMarkdown from "react-markdown";
-import TextArea from "../atoms/TextArea";
-import useDebounce from "../../hooks/useDebounce";
-
-const Doodle = styled.img`
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	height: 50%:
-	width: auto;
-`;
-
-const SVG = styled.svg`
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-
-	
-	path {
-		fill: var(--color4);
-		stroke: var(--color4);
-	}
-`;
-
-const Note = styled.main`
-	//padding: 68px;
-	color: var(--color3);
-	font-size: 16px;
-
-
-	.reactmd,
-	textarea {
-		padding: 68px;
-		height: 100vh;
-		overflow:auto;
-	}
-`;
-
-const TextArea2 = styled.textarea`
-	padding: 68px;
-	color: var(--color3);
-	border: none;
-  background-color: transparent;
-  resize: none;
-  outline: none;
-  line-height: 1.4285em;
-  font-size: 16px;
-  min-width: 100%;
-  min-height: 100vh;
-  
-  ::selection {
-		background: var(--color3); /* WebKit/Blink Browsers */
-		color: var(--color1);
-		font-weight: bold;
-	}
-	::-moz-selection {
-		background: var(--color3); /* Gecko Browsers */
-		color: var(--color1);
-		font-weight: bold;
-	}
-`;
+import {Doodle, SVG, Note,TextArea2} from "../atoms/atoms"
 
 const _renderPlaceholder = () => {
 	return (
@@ -89,7 +25,6 @@ const _renderPlaceholder = () => {
 	);
 }
 
-
 //may become note replacement to avoid too much nesting
 const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	const currentNote = useObjToStr(activeNote)
@@ -102,18 +37,10 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 			setItem(currentNote)
 	}, [currentNote, isEditing])
 
-
-/*	useEffect(() => {
-		if(isEditing) {
-			setTimeout(()=>setIsEditing(false), 5000); //todo: remove this, demonstrating
-			console.log('timeout')
-		}
-	}, [isEditing])*/
-
 	const debounce = useCallback(
 		_.debounce((input: string) => {
 			setDebouncedState(input);
-			updateNotes(input, activeKey)
+			//updateNotes(input, activeKey)
 
 		}, 1000),
 		[]
@@ -158,12 +85,6 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 					onBlur={()=>setIsEditing(false)}
 					onMouseOut={()=>handleOnMouseOut()}
 				/>
-				/*<TextArea
-					id="editor"
-					onChange={e => handleChange(e)}
-					value={item}
-					placeholder="Well what are you waiting for? Get typing..."
-				/>*/
 			}
 			{!activeNote ? _renderPlaceholder() : ''}
 		</Note>

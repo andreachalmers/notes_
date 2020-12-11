@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import ListItem from "../atoms/ListItem";
 import {HiOutlineTrash} from "react-icons/hi"
 import {FcTodoList} from "react-icons/fc"
 import {BiNotepad} from "react-icons/bi"
