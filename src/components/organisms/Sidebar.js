@@ -1,5 +1,5 @@
 import { BsPencilSquare } from 'react-icons/bs';
-import {Search, List, Icon} from "semantic-ui-react";
+import {Search} from "semantic-ui-react";
 import React from "react";
 import {SidebarContainer, SidebarHeader} from "../atoms/atoms";
 //@todo: box shadow when scrolling

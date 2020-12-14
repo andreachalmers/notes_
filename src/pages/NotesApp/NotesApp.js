@@ -14,8 +14,6 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import useFetchData from "../../api/useFetchData";
 
 const NotesApp = () => {
-	console.log('render')
-
 	const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
 	const api = "http://localhost:3001/notes"
 	const {notesArr, setNotesArr, isLoading} = useFetchData(apiEndpoint, [])
@@ -71,12 +69,13 @@ const NotesApp = () => {
 		console.log('delete')
 	}
 
+
 	const _renderNotesList = () => {
 		return (
 			<ul>
 				{
 					notesArr?.map((item,i) => (
-						<>
+						<div key={i}>
 							<ContextMenuTrigger id="menu">
 								<ListItem
 									key={item[i]}
@@ -84,14 +83,15 @@ const NotesApp = () => {
 									onClick={() => handleActive(i)}
 									heading={item.heading}
 									content={item.content}
-								/>
+								>
+								</ListItem>
 							</ContextMenuTrigger>
 							<ContextMenu id="menu" className="rc-menu">
-								<MenuItem onClick={()=> handleDelete()} className="rc-menu__btn">
+								<MenuItem onClick={()=> console.log('delete')} className="rc-menu__btn">
 									Delete
 								</MenuItem>
 							</ContextMenu>
-						</>
+						</div>
 					)).reverse()
 				}
 			</ul>
@@ -117,7 +117,7 @@ const NotesApp = () => {
 	return (
 		<>
 			{isLoading ?
-				<LoaderExampleLoader size="massive" className="loader"/>:
+				<LoaderExampleLoader size="massive" className="loader"/> :
 				<FlexWrapper>
 					<MainNavbar/>
 					{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}

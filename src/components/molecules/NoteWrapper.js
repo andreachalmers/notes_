@@ -2,7 +2,7 @@ import React, {useEffect, useState, useCallback} from 'react';
 import _ from "lodash";
 import useObjToStr from "../../hooks/useStringify";
 import ReactMarkdown from "react-markdown";
-import {Doodle, SVG, Note,TextArea2} from "../atoms/atoms"
+import {SVG, Note,TextArea2} from "../atoms/atoms"
 
 const _renderPlaceholder = () => {
 	return (
@@ -40,18 +40,22 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	const debounce = useCallback(
 		_.debounce((input: string) => {
 			setDebouncedState(input);
-			//updateNotes(input, activeKey)
-
+			updateNotes(input, activeKey)
 		}, 1000),
 		[]
 	);
+	const noteContent = (activeNote) => {
+		let note = `${activeNote.heading} ${activeNote.content}`
+		return note
+	}
 
 	const handleChange = e => {
 		const value = e.target.value
 		// todo: sep heading and content here instead
-		const endOfHeading = value.indexOf("\n")
-		let heading = !value ? 'New Note' : value.slice(0, endOfHeading)
+		//const endOfHeading = value.indexOf("\n")
+		//let heading = !value ? 'New Note' : value.slice(0, endOfHeading)
 		//let content = value.slice(endOfHeading, (value.length - 1))
+		console.log(value)
 		setItem(value)
 		debounce(value)
 		//handleEdit(value)
@@ -70,13 +74,11 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	return (
 		<Note style={{position: "relative", width: '70%'}} onClick={() => handleOnClick()}>
 			{/*TESTING */}
-			{/*<button onClick={() => updateNotes(item,activeKey)}>Save</button>*/}
-			{/*<Doodle src={DoodleImg}/>*/}
 			{/*{`${isEditing.toString()}, received:${currentNote}, state: ${item}`}*/}
-			{/*<p>{debouncedState}</p>
-			<p>{activeKey}</p>*/}
+			<p style={{color: 'deeppink'}}>{debouncedState}</p>
+			{/*<p>{activeKey}</p>*/}
 			{!isEditing ?
-				<ReactMarkdown source={item} className="reactmd"/> :
+				<ReactMarkdown source={item} className="reactmd" escapeHtml={false}/> :
 				<TextArea2
 					value={item}
 					placeholder="Keep calm and write something"
