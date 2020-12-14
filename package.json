@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "faker": "^5.1.0",
     "lodash": "^4.17.20",
+    "marked": "^1.2.6",
     "react": "^16.13.1",
     "react-contextmenu": "^2.14.0",
     "react-dom": "^16.13.1",
