@@ -8,15 +8,14 @@ import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
 import LoaderExampleLoader from "../../components/atoms/Loader";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-
-//import data from "../../db.json";
-
+import data from "../../api/notes.json"
 import useFetchData from "../../api/useFetchData";
 
 const NotesApp = () => {
-	const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
+	/*const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
 	const api = "http://localhost:3001/notes"
-	const {notesArr, setNotesArr, isLoading} = useFetchData(apiEndpoint, [])
+	const {notesArr, setNotesArr, isLoading} = useFetchData(apiEndpoint, [])*/
+	const [notesArr, setNotesArr] = useState(data.notes)
 	const [activeKey, setActiveKey ]= useState(0)
 
 	useEffect(()=>{
@@ -26,7 +25,7 @@ const NotesApp = () => {
 
 	const handleAddNote = note => {
 		const newList = [...notesArr]
-		console.log(activeKey)
+		//console.log(activeKey)
 		//todo: increment activeKey
 		//todo:just make activeKey a state in this component
 		if(notesArr.length) {
@@ -65,8 +64,10 @@ const NotesApp = () => {
 		}
 	}
 
-	const handleDelete = () => {
-		console.log('delete')
+	const handleDelete = key => {
+		let newList = notesArr
+		newList = notesArr.filter((item, i) => i !== key)
+		setNotesArr(newList)
 	}
 
 
@@ -76,7 +77,7 @@ const NotesApp = () => {
 				{
 					notesArr?.map((item,i) => (
 						<div key={i}>
-							<ContextMenuTrigger id="menu">
+							<ContextMenuTrigger id={i}>
 								<ListItem
 									key={item[i]}
 									active={`${item.active ? 'active' : ''}`}
@@ -86,9 +87,12 @@ const NotesApp = () => {
 								>
 								</ListItem>
 							</ContextMenuTrigger>
-							<ContextMenu id="menu" className="rc-menu">
-								<MenuItem onClick={()=> console.log('delete')} className="rc-menu__btn">
+							<ContextMenu id={i} className="rc-menu">
+								<MenuItem onClick={()=>handleDelete(i)} className="rc-menu__btn">
 									Delete
+								</MenuItem>
+								<MenuItem className="rc-menu__btn">
+									Other Options
 								</MenuItem>
 							</ContextMenu>
 						</div>
@@ -104,7 +108,7 @@ const NotesApp = () => {
 		const heading = note.slice(0, endOfHeading)
 		const content = note.slice(endOfHeading).trimStart()
 
-		console.log(heading, content)
+		//console.log(heading, content)
 		let newList = [...notesArr]
 		newList[key] = {
 			heading: heading,
@@ -116,17 +120,14 @@ const NotesApp = () => {
 	}
 	return (
 		<>
-			{isLoading ?
-				<LoaderExampleLoader size="massive" className="loader"/> :
-				<FlexWrapper>
-					<MainNavbar/>
-					{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
-					<Sidebar addNote={handleAddNote}>
-						{_renderNotesList()}
-					</Sidebar>
-					<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}/>
-				</FlexWrapper>
-			}
+			<FlexWrapper>
+				<MainNavbar/>
+				{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
+				<Sidebar addNote={handleAddNote}>
+					{_renderNotesList()}
+				</Sidebar>
+				<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}/>
+			</FlexWrapper>
 		</>
 	)
 }

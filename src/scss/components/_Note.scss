@@ -15,13 +15,24 @@
 }
 
 .rc-menu {
-  padding: 8px 16px;
-  background: white;
+  background: lightgray;
   border-radius: 4px;
+  padding: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  position: relative;
+  z-index: 100;
 
   &__btn {
     cursor: pointer;
     position: relative;
-    z-index: 200;
+    color: black;
+    padding: 2px 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--color4);
+      color: white;
+    }
   }
 }
