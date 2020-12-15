@@ -10,22 +10,17 @@ import LoaderExampleLoader from "../../components/atoms/Loader";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import data from "../../api/notes.json"
 import useFetchData from "../../api/useFetchData";
+import useActiveKey from "../../hooks/useActiveKey";
 
 const NotesApp = () => {
 	/*const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
 	const api = "http://localhost:3001/notes"
 	const {notesArr, setNotesArr, isLoading} = useFetchData(apiEndpoint, [])*/
 	const [notesArr, setNotesArr] = useState(data.notes)
-	const [activeKey, setActiveKey ]= useState(0)
-
-	useEffect(()=>{
-		setActiveKey(Object.keys(notesArr).find(key => notesArr[key].active === true))
-		//setActiveKey(notesArr.length -1)
-	},[notesArr])
+	const activeKey = useActiveKey(notesArr)
 
 	const handleAddNote = note => {
 		const newList = [...notesArr]
-		//console.log(activeKey)
 		//todo: increment activeKey
 		//todo:just make activeKey a state in this component
 		if(notesArr.length) {
