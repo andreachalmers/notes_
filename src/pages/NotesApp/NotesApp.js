@@ -64,7 +64,7 @@ const NotesApp = () => {
 		let lastNote = notesArr.length - 1
 		newList = notesArr.filter((item, i) => i !== key)
 
-		if(key === lastNote && notesArr[lastNote].active === true) {
+		if(key === lastNote && notesArr[lastNote].active === true && notesArr.length > 1) {
 			newList[newList.length - 1].active = true
 		}
 		setNotesArr(newList)
