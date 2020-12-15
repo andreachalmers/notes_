@@ -49,6 +49,11 @@ const Borders = styled.li`
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+	
+	h3,div {
+		font-family: "Avenir Next";
+	}
+	
 `;
 const Heading = styled.h3`
 	//font-weight: bold;

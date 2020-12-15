@@ -11,6 +11,7 @@ const Nav = styled.nav`
 	height: 100vh;
 	color: var(--color3);
 	border-right: 1px solid black;
+	font-family: "Avenir Next";
 	
 	.nav-list {
 		margin-top: 68px;
