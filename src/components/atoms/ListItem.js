@@ -9,7 +9,6 @@ import React from "react";
 
 const ListItemWrapper = styled.div`
 	padding: 8px 8px 8px 26px;
-	list-style: none;
 	position: absolute;
 	margin-left: -20px;
 	background: var(--color1);
@@ -19,7 +18,7 @@ const ListItemWrapper = styled.div`
 	cursor: pointer;
 	
 	&.active {
-		background-color: var(--color6);
+		background-color: var(--color5);
 	}
 `;
 const Borders = styled.li`
