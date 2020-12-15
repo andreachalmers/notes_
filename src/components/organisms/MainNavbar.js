@@ -24,7 +24,7 @@ const Li = styled.li`
 	width: 100%;
 	background-color: ${props => props.active ? `var(--color2)`: `transparent`};
 	color: ${props => props.active ? `var(--color5)`: `var(--color3)`};
-	font-weight: bold;
+	font-weight: 500;
 	display: flex;
 	align-items: center;
 	

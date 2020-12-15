@@ -51,7 +51,7 @@ const Borders = styled.li`
 	}
 `;
 const Heading = styled.h3`
-	font-weight: bold;
+	//font-weight: bold;
 	margin-bottom: 8px;
 `;
 
