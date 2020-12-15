@@ -38,6 +38,7 @@ export const Note = styled.main`
 `;
 
 export const TextArea2 = styled.textarea`
+	font-family: "Avenir Next";
 	padding: 68px;
 	color: var(--color3);
 	border: none;
