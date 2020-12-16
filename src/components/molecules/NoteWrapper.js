@@ -37,12 +37,14 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 			setItem(currentNote)
 	}, [currentNote, isEditing])
 
+	//stops rerender of notesapp which will reset the inital state for notes otherwise
+	//need to rewrite get active notes
 	const debounce = useCallback(
 		_.debounce((input: string) => {
 			setDebouncedState(input);
 			updateNotes(input, activeKey)
 		}, 1000),
-		[]
+		[updateNotes]
 	);
 	const noteContent = (activeNote) => {
 		let note = `${activeNote.heading} ${activeNote.content}`
@@ -75,8 +77,8 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 		<Note style={{position: "relative", width: '70%'}} onClick={() => handleOnClick()}>
 			{/*TESTING */}
 			{/*{`${isEditing.toString()}, received:${currentNote}, state: ${item}`}*/}
-			<p style={{color: 'deeppink'}}>{debouncedState}</p>
-			{/*<p>{activeKey}</p>*/}
+			{/*<p style={{color: 'deeppink'}}>{debouncedState}</p>*/}
+			<p>{activeKey}</p>
 			{!isEditing ?
 				<ReactMarkdown source={item} className="reactmd" escapeHtml={false}/> :
 				<TextArea2
