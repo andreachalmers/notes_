@@ -46,9 +46,10 @@ export const TextArea2 = styled.textarea`
   resize: none;
   outline: none;
   line-height: 1.4285em;
-  font-size: 16px;
+  font-size: 15px;
   min-width: 100%;
   min-height: 100vh;
+  font-weight: 500;
   
   ::selection {
 		background: var(--color3); /* WebKit/Blink Browsers */
