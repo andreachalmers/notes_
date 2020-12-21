@@ -6,17 +6,19 @@ import '../../scss/index.scss'
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
-import LoaderExampleLoader from "../../components/atoms/Loader";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import data from "../../api/notes.json"
-import useFetchData from "../../api/useFetchData";
 import useActiveKey from "../../hooks/useActiveKey";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const NotesApp = () => {
 	/*const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
 	const api = "http://localhost:3001/notes"
 	const {notesArr, setNotesArr, isLoading} = useFetchData(apiEndpoint, [])*/
-	const [notesArr, setNotesArr] = useState(data.notes)
+	//const [notesArr, setNotesArr] = useState(data.notes)
+	const [notesArr, setNotesArr] = useLocalStorage('notes', data.notes)
+
+
 	const activeKey = useActiveKey(notesArr)
 
 	const handleAddNote = note => {
@@ -33,6 +35,7 @@ const NotesApp = () => {
 			active: true,
 		}
 		setNotesArr(newList)
+		//setTest(newList)
 	}
 
 	const handleActive = i => {
