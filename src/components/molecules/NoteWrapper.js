@@ -75,10 +75,6 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
 		<Note style={{position: "relative", width: '70%'}} onClick={() => handleOnClick()}>
-			{/*TESTING */}
-			{/*{`${isEditing.toString()}, received:${currentNote}, state: ${item}`}*/}
-			{/*<p style={{color: 'deeppink'}}>{debouncedState}</p>*/}
-			<p>{activeKey}</p>
 			{!isEditing ?
 				<ReactMarkdown source={item} className="reactmd" escapeHtml={false}/> :
 				<TextArea2

@@ -54,6 +54,11 @@ const Borders = styled.li`
 		font-family: "Avenir Next";
 	}
 	
+	h3 {
+		font-size: 15px;
+		font-weight: 600;
+	}
+	
 `;
 const Heading = styled.h3`
 	//font-weight: bold;
