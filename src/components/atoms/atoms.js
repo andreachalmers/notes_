@@ -31,9 +31,10 @@ export const Note = styled.main`
 
 	.reactmd,
 	textarea {
-		padding: 68px;
+		padding: 75px 68px 68px;
 		height: 100vh;
 		overflow:auto;
+		color: white;
 	}
 `;
 
