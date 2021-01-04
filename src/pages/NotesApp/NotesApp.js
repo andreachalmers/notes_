@@ -21,6 +21,14 @@ const NotesApp = () => {
 
 	const activeKey = useActiveKey(notesArr)
 
+	const getDate = () => {
+		const date = new Date(Date.now())
+		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		const dateStr = new Date(Date(date.getFullYear(), date.getMonth(), date.getDate())).toLocaleDateString(undefined, options)
+		let [hour, minute] = new Date().toLocaleTimeString(undefined).split(/:| /)
+		return `${dateStr} at ${hour}:${minute}`
+	}
+
 	const handleAddNote = note => {
 		const newList = [...notesArr]
 		//todo: increment activeKey
@@ -33,6 +41,7 @@ const NotesApp = () => {
 			heading: "# A wonderful new note",
 			content: "",
 			active: true,
+			date: getDate(),
 		}
 		setNotesArr(newList)
 		//setTest(newList)
@@ -117,6 +126,7 @@ const NotesApp = () => {
 			heading: heading,
 			content: content,
 			active: true,
+			date: newList[key].date
 		}
 
 		setNotesArr(newList)
@@ -129,7 +139,11 @@ const NotesApp = () => {
 				<Sidebar addNote={handleAddNote}>
 					{_renderNotesList()}
 				</Sidebar>
-				<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}/>
+				<NoteWrapper
+					activeNote={notesArr[activeKey]}
+					activeKey={activeKey}
+					updateNotes={handleUpdateNotes}
+				/>
 			</FlexWrapper>
 		</>
 	)

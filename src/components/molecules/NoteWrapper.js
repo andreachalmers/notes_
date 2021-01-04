@@ -21,6 +21,7 @@ const Date = styled.p`
 //may become note replacement to avoid too much nesting
 const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	const currentNote = useObjToStr(activeNote)
+	const dateCreated = activeNote.date
 	const [item, setItem] = useState(currentNote)
 	const [isEditing, setIsEditing] = useState(false);
 	const [debouncedState, setDebouncedState] = useState("");
@@ -89,7 +90,7 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
 		<Note style={{position: "relative", width: '70%'}} onClick={() => handleOnClick()}>
-			<Date>21. December 2020 at 21:02</Date>
+			<Date>{dateCreated}</Date>
 			{!isEditing ?
 				<ReactMarkdown source={item} className="reactmd" escapeHtml={false}/> :
 				<TextArea2
