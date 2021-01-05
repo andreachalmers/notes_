@@ -1,6 +1,18 @@
 import styled from "styled-components";
 
 /********** NOTE WRAPPER ************/
+export const Date = styled.p`
+	position:absolute;
+	top: 28px;
+	margin: auto;
+	font-size: 12px;
+	line-height: 1.25em;
+	color: grey;
+	font-family: 'Lato';
+	left: 50%;
+	transform: translateX(-50%);
+	font-weight: 600;
+`;
 
 export const Doodle = styled.img`
 	position: absolute;

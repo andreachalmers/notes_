@@ -2,21 +2,7 @@ import React, {useEffect, useState, useCallback} from 'react';
 import _ from "lodash";
 import useObjToStr from "../../hooks/useStringify";
 import ReactMarkdown from "react-markdown";
-import {SVG, Note,TextArea2} from "../atoms/atoms"
-import styled from "styled-components";
-
-const Date = styled.p`
-	position:absolute;
-	top: 28px;
-	margin: auto;
-	font-size: 12px;
-	line-height: 1.25em;
-	color: grey;
-	font-family: 'Lato';
-	left: 50%;
-	transform: translateX(-50%);
-	font-weight: 600;
-`;
+import {SVG, Note,TextArea2, Date} from "../atoms/atoms"
 
 //may become note replacement to avoid too much nesting
 const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
