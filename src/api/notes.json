@@ -24,9 +24,16 @@
     {
       "heading": "# A wonderful note",
       "content": "Keep calm and type something",
-      "active": true,
+      "active": false,
       "id": 3,
       "date": "21. December 2020 at 21:02"
+    },
+    {
+      "heading": "# Notes App \uD83D\uDCDD",
+      "content": "___\n\n- [Tasks](https://github.com/andreachalmers/notes_/projects/1)\n - [Github]()\n\n- PR  - `new-agile-learning` branch for next meeting\n\n## 8. Jan 2021\n\n- ~~added date for when note was created~~\n- ~~local storage~~\n- pwa?",
+      "active": true,
+      "id": 4,
+      "date": "05. January 2021 at 13:45"
     }
   ]
 }
