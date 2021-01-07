@@ -133,5 +133,9 @@ export const SidebarHeader = styled.header`
 		fill: var(--color3);
 		width: 1.5em;
 		height: 1.5em;
+		
+		&--disabled {
+			fill: var(--gainsboro)
+		}
 	}
 `;

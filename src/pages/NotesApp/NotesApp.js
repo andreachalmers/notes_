@@ -32,6 +32,8 @@ const NotesApp = () => {
 	}
 
 	const handleAddNote = note => {
+		if(isTrashActive)
+			return
 		const newList = [...notesArr]
 		//todo: increment activeKey
 		//todo:just make activeKey a state in this component
@@ -157,7 +159,7 @@ const NotesApp = () => {
 					isTrashActive={isTrashActive}
 				/>
 				{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
-				<Sidebar addNote={handleAddNote}>
+				<Sidebar addNote={handleAddNote} isTrashActive={isTrashActive}>
 					{_renderNotesList(isNotesActive ? notesArr : trash)}
 				</Sidebar>
 				<NoteWrapper
