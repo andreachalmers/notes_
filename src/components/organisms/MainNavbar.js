@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {HiOutlineTrash} from "react-icons/hi"
 import {FcTodoList} from "react-icons/fc"
 import {BiNotepad} from "react-icons/bi"
-import React from 'react';
+import React, {useRef, useState} from 'react';
 
 const Nav = styled.nav`
 	background: var(--color5);
@@ -40,13 +40,13 @@ const Li = styled.li`
 	}
 `;
 
-const MainNavbar = () => {
+const MainNavbar = ({showNotes, showDeletedItems, isNotesActive, isTrashActive}) => {
 	return (
 		<Nav>
 			<ul className="nav-list">
-				<Li active><BiNotepad className="mr-8"/>Notes</Li>
+				<Li onClick={showNotes} active={isNotesActive}><BiNotepad className="mr-8"/>Notes</Li>
 				<Li><FcTodoList className="mr-8 todo"/>Todo</Li>
-				<Li><HiOutlineTrash className="mr-8"/>Trash</Li>
+				<Li onClick={showDeletedItems} active={isTrashActive}><HiOutlineTrash className="mr-8"/>Trash</Li>
 			</ul>
 		</Nav>
 	);

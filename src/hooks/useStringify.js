@@ -1,6 +1,6 @@
 const useObjToStr = (obj) => {
-	const content = [obj["heading"], obj["content"]]
-	const string = obj ? content.join('\n\n') : ''
+	const content = obj ? [obj["heading"], obj["content"]] : [] //quick fix
+	const string = content.join('\n\n')
 	return string
 }
 

@@ -17,10 +17,12 @@ const NotesApp = () => {
 	const {notesArr, setNotesArr, isLoading} = useFetchData(apiEndpoint, [])*/
 	//const [notesArr, setNotesArr] = useState(data.notes)
 	const [notesArr, setNotesArr] = useLocalStorage('notes', data.notes)
-
-
+	const [trash, setTrash] = useLocalStorage('trash', data.trash)
+	//duplicated from main sidebar-- what is the best way to do this?
+	const [isNotesActive, setIsNotesActive] = useState(true)
+	const [isTrashActive, setIsTrashActive] = useState(false)
 	const activeKey = useActiveKey(notesArr)
-
+	const trashKey = useActiveKey(trash)
 	const getDate = () => {
 		const date = new Date(Date.now())
 		const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -38,10 +40,11 @@ const NotesApp = () => {
 		}
 
 		newList[notesArr.length] = {
-			heading: "# A wonderful new note",
-			content: "",
-			active: true,
-			date: getDate(),
+			"heading": "# A wonderful new note",
+			"content": "",
+			"id": notesArr.length,
+			"active": true,
+			"date": getDate(),
 		}
 		setNotesArr(newList)
 		//setTest(newList)
@@ -73,21 +76,24 @@ const NotesApp = () => {
 
 	const handleDelete = key => {
 		let newList = notesArr
+		const newTrash = trash
 		let lastNote = notesArr.length - 1
 		newList = notesArr.filter((item, i) => i !== key)
-
+		newTrash[trash.length] = notesArr[key]
 		if(key === lastNote && notesArr[lastNote].active === true && notesArr.length > 1) {
 			newList[newList.length - 1].active = true
 		}
+		console.log(newList[key])
+		setTrash(newTrash)
 		setNotesArr(newList)
 	}
 
 
-	const _renderNotesList = () => {
+	const _renderNotesList = arr => {
 		return (
 			<ul>
 				{
-					notesArr?.map((item,i) => (
+					arr?.map((item,i) => (
 						<div key={i}>
 							<ContextMenuTrigger id={i}>
 								<ListItem
@@ -123,24 +129,39 @@ const NotesApp = () => {
 		//console.log(heading, content)
 		let newList = [...notesArr]
 		newList[key] = {
-			heading: heading,
-			content: content,
-			active: true,
-			date: newList[key].date
+			"heading": heading,
+			"content": content,
+			"active": true,
+			"id": key,
+			"date": newList[key].date
 		}
 
 		setNotesArr(newList)
 	}
+
+	const showNotes = () => {
+		setIsTrashActive(false)
+		setIsNotesActive(true)
+	}
+	const showTrash = value => {
+		setIsNotesActive(false)
+		setIsTrashActive(true)
+	}
 	return (
 		<>
 			<FlexWrapper>
-				<MainNavbar/>
+				<MainNavbar
+					showNotes={showNotes}
+					showDeletedItems={showTrash}
+					isNotesActive={isNotesActive}
+					isTrashActive={isTrashActive}
+				/>
 				{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
 				<Sidebar addNote={handleAddNote}>
-					{_renderNotesList()}
+					{_renderNotesList(isNotesActive ? notesArr : trash)}
 				</Sidebar>
 				<NoteWrapper
-					activeNote={notesArr[activeKey]}
+					activeNote={isNotesActive ? notesArr[activeKey] : trash[trashKey]}
 					activeKey={activeKey}
 					updateNotes={handleUpdateNotes}
 				/>
