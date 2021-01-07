@@ -79,22 +79,27 @@ const NotesApp = () => {
 		}
 	}
 
-	const handleDelete = (arr,key) => {
+	const handleDelete = (arr, key) => {
 		let newList = arr
+		//const key = arr[i].id
 		const newTrash = trash
 		let lastNote = arr.length - 1
 		newList = notesArr.filter((item, i) => i !== key)
 		newTrash[trash.length] = arr[key]
 
-		trash.map(item => {
+		/*notesArr.map(item => {
 			if(item !== item[key])
 				item.active = false
-		})
+		})*/
 
-		if(key === lastNote && arr[lastNote].active === true && arr.length > 1) {
-			newList[newList.length - 1].active = true
-			newTrash[newTrash.length - 1].active = true
+		if(key === lastNote && arr[lastNote].active === true && arr.length > 1 || arr[key].active === true) {
+			arr[arr.length - 1].active = true
 		}
+		trash.map((item,i )=> {
+			if(i !== item.length - 1)
+				item.active = false
+		})
+		newTrash[newTrash.length - 1].active = true
 
 		console.log(newList[key])
 		setTrash(newTrash)
