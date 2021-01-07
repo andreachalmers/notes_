@@ -135,7 +135,8 @@ export const SidebarHeader = styled.header`
 		height: 1.5em;
 		
 		&--disabled {
-			fill: var(--gainsboro)
+			fill: var(--gainsboro);
+			cursor: default;
 		}
 	}
 `;
