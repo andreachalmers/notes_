@@ -52,18 +52,21 @@ const NotesApp = () => {
 		//setTest(newList)
 	}
 
-	const handleActive = i => {
-		let newArr = notesArr
-
+	const handleActive = (arr,i) => {
+		let newArr = arr
+		console.log(arr)
 		newArr[i].active = true
 		//when one is active make all others inactive/false
 		newArr.map(item => {
-			if(item !== notesArr[i]) {
+			if(item !== arr[i]) {
 				item.active = false
 			}
-
 		})
-		setNotesArr([...notesArr],newArr)
+
+		//if(isNotesActive)
+			setNotesArr([...notesArr],newArr)
+		//if(isTrashActive)
+			setTrash([...trash],newArr)
 	}
 
 	const handleRemoveNote = () => {
@@ -76,15 +79,23 @@ const NotesApp = () => {
 		}
 	}
 
-	const handleDelete = key => {
-		let newList = notesArr
+	const handleDelete = (arr,key) => {
+		let newList = arr
 		const newTrash = trash
-		let lastNote = notesArr.length - 1
+		let lastNote = arr.length - 1
 		newList = notesArr.filter((item, i) => i !== key)
-		newTrash[trash.length] = notesArr[key]
-		if(key === lastNote && notesArr[lastNote].active === true && notesArr.length > 1) {
+		newTrash[trash.length] = arr[key]
+
+		trash.map(item => {
+			if(item !== item[key])
+				item.active = false
+		})
+
+		if(key === lastNote && arr[lastNote].active === true && arr.length > 1) {
 			newList[newList.length - 1].active = true
+			newTrash[newTrash.length - 1].active = true
 		}
+
 		console.log(newList[key])
 		setTrash(newTrash)
 		setNotesArr(newList)
@@ -101,14 +112,14 @@ const NotesApp = () => {
 								<ListItem
 									key={item[i]}
 									active={`${item.active ? 'active' : ''}`}
-									onClick={() => handleActive(i)}
+									onClick={() => handleActive(arr,i)}
 									heading={item.heading}
 									content={item.content}
 								>
 								</ListItem>
 							</ContextMenuTrigger>
 							<ContextMenu id={i} className="rc-menu">
-								<MenuItem onClick={()=>handleDelete(i)} className="rc-menu__btn">
+								<MenuItem onClick={()=>handleDelete(arr,i)} className="rc-menu__btn">
 									Delete
 								</MenuItem>
 								<MenuItem className="rc-menu__btn">
