@@ -87,14 +87,10 @@ const NotesApp = () => {
 		newList = notesArr.filter((item, i) => i !== key)
 		newTrash[trash.length] = arr[key]
 
-		/*notesArr.map(item => {
-			if(item !== item[key])
-				item.active = false
-		})*/
-
 		if(key === lastNote && arr[lastNote].active === true && arr.length > 1 || arr[key].active === true) {
-			arr[arr.length - 1].active = true
+			newList[newList.length - 1].active = true
 		}
+
 		trash.map((item,i )=> {
 			if(i !== item.length - 1)
 				item.active = false
