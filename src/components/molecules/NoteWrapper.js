@@ -1,10 +1,9 @@
-import React, {useEffect, useState, useCallback, useRef} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import _ from "lodash";
 import useObjToStr from "../../hooks/useStringify";
 import ReactMarkdown from "react-markdown";
-import {SVG, Note,TextArea2, Date, StickyBar} from "../atoms/atoms"
+import {SVG, Note,TextArea2, Date, StickyBar} from "../atoms/atoms";
 
-//may become note replacement to avoid too much nesting
 const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	const currentNote = useObjToStr(activeNote)
 	const [item, setItem] = useState(currentNote)
@@ -18,7 +17,6 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 
 	useEffect(()=>{
 		const stickyBar = document.querySelector('.sticky-bar')
-
 		document.querySelector('.scroll').addEventListener('scroll', ()=> {
 			stickyBar.classList.add('scrolling')
 		})
@@ -26,8 +24,6 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 		return () => stickyBar.classList.remove('scrolling')
 	});
 
-	//stops rerender of notesapp which will reset the inital state for notes otherwise
-	//need to rewrite get active notes
 	const debounce = useCallback(
 		_.debounce((input: string) => {
 			setDebouncedState(input);
@@ -35,21 +31,11 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 		}, 1000),
 		[updateNotes]
 	);
-	const noteContent = (activeNote) => {
-		let note = `${activeNote.heading} ${activeNote.content}`
-		return note
-	}
 
 	const handleChange = e => {
 		const value = e.target.value
-		// todo: sep heading and content here instead
-		//const endOfHeading = value.indexOf("\n")
-		//let heading = !value ? 'New Note' : value.slice(0, endOfHeading)
-		//let content = value.slice(endOfHeading, (value.length - 1))
-		console.log(value)
 		setItem(value)
 		debounce(value)
-		//handleEdit(value)
 	}
 	const handleOnMouseOut = () => {
 		updateNotes(item,activeKey)

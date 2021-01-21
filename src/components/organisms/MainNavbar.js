@@ -29,6 +29,10 @@ const Li = styled.li`
 	display: flex;
 	align-items: center;
 	
+	&:hover { 
+		cursor: pointer;
+	}
+	
 	svg {
 		stroke:  ${props => props.active ? `var(--color1)`: `var(--color3)`};
 		width: 1.5em;
