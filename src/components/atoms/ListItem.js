@@ -25,7 +25,7 @@ const ListItemWrapper = styled.div`
 	
 	p {
 		overflow: hidden;
-		max-height: 116px; //add vars based off 160, etc (quick fix);
+		max-height: 88px; //add vars based off 160, etc (quick fix);
 		line-height: 1.5em;
 	}
 `;

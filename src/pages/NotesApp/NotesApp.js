@@ -80,38 +80,44 @@ const NotesApp = () => {
 	}
 
 	const handleDelete = (arr, key) => {
-		let newList = arr
-		//const key = arr[i].id
-		let newTrash = trash
 		let lastNote = arr.length - 1
-		newList = notesArr.filter((item, i) => i !== key)
+		let newList
+		let newTrash = trash
 
-		if(!isTrashActive)
-			newTrash[trash.length] = arr[key]
+		if(isNotesActive) {
+			//remove note with key from new notes arr list
+			newList = notesArr.filter((item, i) => i !== key)
+
+			//if active key deleted then make last note active
+			if(arr[key].active === true && arr.length > 1) {
+				newList[newList.length - 1].active = true;
+
+				//remove active tag from note assigned to trash
+				arr[key].active = false;
+			}
+
+			//add this note to the last index of trash arr
+			newTrash[newTrash.length] = arr[key];
+
+			setNotesArr(newList)
+		}
 
 		if(isTrashActive) {
+			if(arr[key].active === true)
+				console.log('yip')
 			newTrash = trash.filter((item,i) => {
 				if(i !== key)
 					return item
 			})
-			//newTrash = trash.filter(item => !item[key])
-			//console.log(newTrash, trash)
+
+			//if active key deleted then make last note active
+			if(arr[key].active === true && arr.length > 1) {
+				newTrash[newTrash.length - 1].active = true;
+			}
 		}
 
-		if(key === lastNote && arr[lastNote].active === true && arr.length > 1 || arr[key].active === true) {
-			newList[newList.length - 1].active = true
-		}
-
-		trash.map((item,i )=> {
-			if(i !== item.length - 1 && trash.length > 1)
-				item.active = false
-		})
-
-		if(newTrash.length)
-			newTrash[newTrash.length - 1].active = true
-		console.log(newList[key])
 		setTrash(newTrash)
-		setNotesArr(newList)
+		//todo: remove two active notes in trash ( deleting last note less than one)
 	}
 
 
