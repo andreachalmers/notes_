@@ -1,8 +1,8 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
 import _ from "lodash";
 import useObjToStr from "../../hooks/useStringify";
 import ReactMarkdown from "react-markdown";
-import {SVG, Note,TextArea2, Date} from "../atoms/atoms"
+import {SVG, Note,TextArea2, Date, StickyBar} from "../atoms/atoms"
 
 //may become note replacement to avoid too much nesting
 const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
@@ -14,7 +14,17 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	useEffect(() => {
 		if(!isEditing)
 			setItem(currentNote)
-	}, [currentNote, isEditing])
+	}, [currentNote, isEditing]);
+
+	useEffect(()=>{
+		const stickyBar = document.querySelector('.sticky-bar')
+
+		document.querySelector('.scroll').addEventListener('scroll', ()=> {
+			stickyBar.classList.add('scrolling')
+		})
+
+		return () => stickyBar.classList.remove('scrolling')
+	});
 
 	//stops rerender of notesapp which will reset the inital state for notes otherwise
 	//need to rewrite get active notes
@@ -75,10 +85,11 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 	//todo: ln 97: when editing is true setfocus automatically on textarea so you can immediately start typing instead of first clickign again
 	return (
 		<Note style={{position: "relative", width: '70%'}} onClick={() => handleOnClick()}>
-			<Date>{activeNote ? activeNote.date: ''}</Date>
+			<StickyBar className="sticky-bar"><Date>{activeNote ? activeNote.date: ''}</Date></StickyBar>
 			{!isEditing ?
-				<ReactMarkdown source={item} className="reactmd" escapeHtml={false}/> :
+				<ReactMarkdown source={item} className="reactmd scroll" escapeHtml={false} /> :
 				<TextArea2
+					className="scroll"
 					value={item}
 					placeholder="Keep calm and write something"
 					onChange={e => handleChange(e)} //move to TextArea component later

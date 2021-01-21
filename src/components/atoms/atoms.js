@@ -1,6 +1,17 @@
 import styled from "styled-components";
 
 /********** NOTE WRAPPER ************/
+export const StickyBar = styled.div`
+	height: 68px;
+	width: 100%;
+	background-color: var(--color1);
+	margin-bottom: 8px;
+	
+	&.scrolling {
+		border-bottom: 1px solid var(--color4);
+	}
+`;
+
 export const Date = styled.p`
 	position:absolute;
 	top: 28px;
@@ -40,12 +51,11 @@ export const Note = styled.main`
 	color: var(--color3);
 	font-size: 16px;
 
-
 	.reactmd,
 	textarea {
-		padding: 75px 68px 68px;
-		height: 100vh;
-		overflow:auto;
+		padding: 0 68px 68px;
+		height: calc(100vh - 68px - 8px);
+		overflow: scroll;
 		color: white;
 	}
 `;
