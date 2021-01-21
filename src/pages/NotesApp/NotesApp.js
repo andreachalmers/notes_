@@ -89,8 +89,9 @@ const NotesApp = () => {
 			newList = notesArr.filter((item, i) => i !== key)
 
 			//if active key deleted then make last note active
-			if(arr[key].active === true && arr.length > 1) {
-				newList[newList.length - 1].active = true;
+			if(arr[key].active === true) {
+				if(arr.length > 1)
+					newList[newList.length - 1].active = true;
 
 				//remove active tag from note assigned to trash
 				arr[key].active = false;
@@ -115,9 +116,6 @@ const NotesApp = () => {
 				newTrash[newTrash.length - 1].active = true;
 			}
 		}
-
-		setTrash(newTrash)
-		//todo: remove two active notes in trash ( deleting last note less than one)
 	}
 
 
