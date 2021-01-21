@@ -8,7 +8,7 @@ export const StickyBar = styled.div`
 	margin-bottom: 8px;
 	
 	&.scrolling {
-		border-bottom: 1px solid var(--color4);
+		//border-bottom: 1px solid var(--color4);
 	}
 `;
 
