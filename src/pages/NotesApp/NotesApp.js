@@ -99,7 +99,6 @@ const NotesApp = () => {
 
 			//add this note to the last index of trash arr
 			newTrash[newTrash.length] = arr[key];
-
 			setNotesArr(newList)
 		}
 
@@ -116,6 +115,8 @@ const NotesApp = () => {
 				newTrash[newTrash.length - 1].active = true;
 			}
 		}
+
+		setTrash(newTrash)
 	}
 
 
