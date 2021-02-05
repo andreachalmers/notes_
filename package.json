@@ -23,7 +23,7 @@
     "styled-components": "^5.2.0"
   },
   "scripts": {
-    "start": "set HTTPS=true && set PORT=443 && react-scripts start",
+    "start": "HTTPS=true && set PORT=443 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
