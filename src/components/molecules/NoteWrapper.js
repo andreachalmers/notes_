@@ -15,6 +15,10 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 			setItem(currentNote)
 	}, [currentNote, isEditing]);
 
+	useEffect(()=> {
+		setIsEditing(false) //??
+	}, [activeKey]);
+
 	useEffect(()=>{
 		const stickyBar = document.querySelector('.sticky-bar')
 		document.querySelector('.scroll').addEventListener('scroll', ()=> {
@@ -81,7 +85,7 @@ const NoteWrapper = ({children, activeNote, activeKey, updateNotes}) => {
 					onChange={e => handleChange(e)} //move to TextArea component later
 					onFocus={()=>setIsEditing(true)}
 					onBlur={()=>setIsEditing(false)}
-					onMouseOut={()=>handleOnMouseOut()}
+					//onMouseOut={()=>handleOnMouseOut()}
 				/>
 			}
 			{!activeNote ? _renderPlaceholder() : ''}

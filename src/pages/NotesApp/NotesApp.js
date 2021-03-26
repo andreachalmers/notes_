@@ -21,7 +21,7 @@ const NotesApp = () => {
 	//duplicated from main sidebar-- what is the best way to do this?
 	const [isNotesActive, setIsNotesActive] = useState(true)
 	const [isTrashActive, setIsTrashActive] = useState(false)
-	const activeKey = useActiveKey(notesArr)
+	const activeKey = useActiveKey(notesArr)//this doesnt really work only when rerendered: refactor
 	const trashKey = useActiveKey(trash)
 	const getDate = () => {
 		const date = new Date(Date.now())
@@ -152,13 +152,19 @@ const NotesApp = () => {
 	}
 
 	const handleUpdateNotes = (note, key) => {
+		let newList
+/*		if(note === '') {
+			handleDelete(notesArr, key) //why duplicate? doesnt work in handle delete
+			newList = notesArr.filter((item, i) => i !== key)
+			console.log(newList)
+		}*/
+		newList = [...notesArr]
+
 		//put...
 		const endOfHeading = note.search('\n')
 		const heading = note.slice(0, endOfHeading + 1)
 		const content = note.slice(endOfHeading + 1).trimStart()
 
-		//console.log(heading, content)
-		let newList = [...notesArr]
 		newList[key] = {
 			"heading": heading,
 			"content": content,
@@ -166,7 +172,6 @@ const NotesApp = () => {
 			"id": key,
 			"date": newList[key].date
 		}
-
 		setNotesArr(newList)
 	}
 

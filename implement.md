@@ -23,3 +23,6 @@ https://www.google.com/imgres?imgurl=https%3A%2F%2Fc0.klipartz.com%2Fpngpicture%
 https://medium.com/@benjaminadk/build-a-markdown-previewer-96af2622dd9a
 
 ### fix marked md
+
+### pwa
+https://www.codica.com/blog/how-to-create-pwa-with-react/
