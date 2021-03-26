@@ -1,6 +1,29 @@
 import styled from "styled-components";
 
 /********** NOTE WRAPPER ************/
+export const StickyBar = styled.div`
+	height: 68px;
+	width: 100%;
+	background-color: var(--color1);
+	margin-bottom: 8px;
+	
+	&.scrolling {
+		//border-bottom: 1px solid var(--color4);
+	}
+`;
+
+export const Date = styled.p`
+	position:absolute;
+	top: 28px;
+	margin: auto;
+	font-size: 12px;
+	line-height: 1.25em;
+	color: grey;
+	font-family: 'Lato';
+	left: 50%;
+	transform: translateX(-50%);
+	font-weight: 600;
+`;
 
 export const Doodle = styled.img`
 	position: absolute;
@@ -28,12 +51,12 @@ export const Note = styled.main`
 	color: var(--color3);
 	font-size: 16px;
 
-
 	.reactmd,
 	textarea {
-		padding: 68px;
-		height: 100vh;
-		overflow:auto;
+		padding: 0 68px 68px;
+		height: calc(100vh - 68px - 8px);
+		overflow: scroll;
+		color: white;
 	}
 `;
 
@@ -46,9 +69,10 @@ export const TextArea2 = styled.textarea`
   resize: none;
   outline: none;
   line-height: 1.4285em;
-  font-size: 16px;
+  font-size: 15px;
   min-width: 100%;
   min-height: 100vh;
+  font-weight: 500;
   
   ::selection {
 		background: var(--color3); /* WebKit/Blink Browsers */
@@ -119,5 +143,10 @@ export const SidebarHeader = styled.header`
 		fill: var(--color3);
 		width: 1.5em;
 		height: 1.5em;
+		
+		&--disabled {
+			fill: var(--gainsboro);
+			cursor: default;
+		}
 	}
 `;

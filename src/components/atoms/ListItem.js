@@ -9,16 +9,24 @@ import React from "react";
 
 const ListItemWrapper = styled.div`
 	padding: 8px 8px 8px 26px;
-	position: absolute;
+	position: relative;
 	margin-left: -20px;
 	background: var(--color1);
 	color: var(--color3);
 	width: calc(100% + 20px);
 	height: 100%;
+	min-height: 80px;
+	max-height: 160px;
 	cursor: pointer;
 	
 	&.active {
 		background-color: var(--color5);
+	}
+	
+	p {
+		overflow: hidden;
+		max-height: 88px; //add vars based off 160, etc (quick fix);
+		line-height: 1.5em;
 	}
 `;
 const Borders = styled.li`
@@ -26,7 +34,7 @@ const Borders = styled.li`
 	border-color: var(--color4);
 	position: relative;
 	margin-left: 20px;
-	height: 80px;
+	//height: 80px;
 	max-height: 160px;
 	
 	&::before {
@@ -52,6 +60,11 @@ const Borders = styled.li`
 	
 	h3,div {
 		font-family: "Avenir Next";
+	}
+	
+	h3 {
+		font-size: 15px;
+		font-weight: 600;
 	}
 	
 `;

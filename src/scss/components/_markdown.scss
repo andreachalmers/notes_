@@ -1,20 +1,48 @@
 .reactmd {
   font-family: "Avenir Next" !important;
+  font-size: 15px;
 
   h1,h2,h3,h4,h5,h6 {
     font-family: "Avenir Next" !important;
     font-weight: 600;
+    color: var(--color3);
   }
 
   h1 {
     font-weight: 500;
+    font-size: 1.72rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1.43rem;
+  }
+
+  h5 {
+    font-size: 1.35rem;
+  }
+
+  h6 {
+    font-size: 1.25rem;
   }
 
   img {
     max-width: 400px;
+    border-radius: 2px;
   }
 
   a {
     color: var(--color2);
+  }
+
+  ul {
+    list-style: disc;
   }
 }

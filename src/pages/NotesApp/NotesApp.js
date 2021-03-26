@@ -6,20 +6,34 @@ import '../../scss/index.scss'
 import MainNavbar from "../../components/organisms/MainNavbar";
 import NoteWrapper from "../../components/molecules/NoteWrapper";
 import ListItem from "../../components/atoms/ListItem";
-import LoaderExampleLoader from "../../components/atoms/Loader";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import data from "../../api/notes.json"
-import useFetchData from "../../api/useFetchData";
 import useActiveKey from "../../hooks/useActiveKey";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const NotesApp = () => {
 	/*const apiEndpoint = "http://my-json-server.typicode.com/andreachalmers/notes_/notes"
 	const api = "http://localhost:3001/notes"
 	const {notesArr, setNotesArr, isLoading} = useFetchData(apiEndpoint, [])*/
-	const [notesArr, setNotesArr] = useState(data.notes)
+	//const [notesArr, setNotesArr] = useState(data.notes)
+	const [notesArr, setNotesArr] = useLocalStorage('notes', data.notes)
+	const [trash, setTrash] = useLocalStorage('trash', data.trash)
+	//duplicated from main sidebar-- what is the best way to do this?
+	const [isNotesActive, setIsNotesActive] = useState(true)
+	const [isTrashActive, setIsTrashActive] = useState(false)
 	const activeKey = useActiveKey(notesArr)
+	const trashKey = useActiveKey(trash)
+	const getDate = () => {
+		const date = new Date(Date.now())
+		const options = { year: 'numeric', month: 'long', day: 'numeric' };
+		const dateStr = new Date(Date(date.getFullYear(), date.getMonth(), date.getDate())).toLocaleDateString(undefined, options)
+		let [hour, minute] = new Date().toLocaleTimeString(undefined).split(/:| /)
+		return `${dateStr} at ${hour}:${minute}`
+	}
 
 	const handleAddNote = note => {
+		if(isTrashActive)
+			return
 		const newList = [...notesArr]
 		//todo: increment activeKey
 		//todo:just make activeKey a state in this component
@@ -28,25 +42,31 @@ const NotesApp = () => {
 		}
 
 		newList[notesArr.length] = {
-			heading: "# A wonderful new note",
-			content: "",
-			active: true,
+			"heading": "# A wonderful new note",
+			"content": "",
+			"id": notesArr.length,
+			"active": true,
+			"date": getDate(),
 		}
 		setNotesArr(newList)
+		//setTest(newList)
 	}
 
-	const handleActive = i => {
-		let newArr = notesArr
-
+	const handleActive = (arr,i) => {
+		let newArr = arr
+		console.log(arr)
 		newArr[i].active = true
 		//when one is active make all others inactive/false
 		newArr.map(item => {
-			if(item !== notesArr[i]) {
+			if(item !== arr[i]) {
 				item.active = false
 			}
-
 		})
-		setNotesArr([...notesArr],newArr)
+
+		//if(isNotesActive)
+			setNotesArr([...notesArr],newArr)
+		//if(isTrashActive)
+			setTrash([...trash],newArr)
 	}
 
 	const handleRemoveNote = () => {
@@ -59,36 +79,65 @@ const NotesApp = () => {
 		}
 	}
 
-	const handleDelete = key => {
-		let newList = notesArr
-		let lastNote = notesArr.length - 1
-		newList = notesArr.filter((item, i) => i !== key)
+	const handleDelete = (arr, key) => {
+		let lastNote = arr.length - 1
+		let newList
+		let newTrash = trash
 
-		if(key === lastNote && notesArr[lastNote].active === true && notesArr.length > 1) {
-			newList[newList.length - 1].active = true
+		if(isNotesActive) {
+			//remove note with key from new notes arr list
+			newList = notesArr.filter((item, i) => i !== key)
+
+			//if active key deleted then make last note active
+			if(arr[key].active === true) {
+				if(arr.length > 1)
+					newList[newList.length - 1].active = true;
+
+				//remove active tag from note assigned to trash
+				arr[key].active = false;
+			}
+
+			//add this note to the last index of trash arr
+			newTrash[newTrash.length] = arr[key];
+			setNotesArr(newList)
 		}
-		setNotesArr(newList)
+
+		if(isTrashActive) {
+			if(arr[key].active === true)
+				console.log('yip')
+			newTrash = trash.filter((item,i) => {
+				if(i !== key)
+					return item
+			})
+
+			//if active key deleted then make last note active
+			if(arr[key].active === true && arr.length > 1) {
+				newTrash[newTrash.length - 1].active = true;
+			}
+		}
+
+		setTrash(newTrash)
 	}
 
 
-	const _renderNotesList = () => {
+	const _renderNotesList = arr => {
 		return (
 			<ul>
 				{
-					notesArr?.map((item,i) => (
+					arr?.map((item,i) => (
 						<div key={i}>
 							<ContextMenuTrigger id={i}>
 								<ListItem
 									key={item[i]}
 									active={`${item.active ? 'active' : ''}`}
-									onClick={() => handleActive(i)}
+									onClick={() => handleActive(arr,i)}
 									heading={item.heading}
 									content={item.content}
 								>
 								</ListItem>
 							</ContextMenuTrigger>
 							<ContextMenu id={i} className="rc-menu">
-								<MenuItem onClick={()=>handleDelete(i)} className="rc-menu__btn">
+								<MenuItem onClick={()=>handleDelete(arr,i)} className="rc-menu__btn">
 									Delete
 								</MenuItem>
 								<MenuItem className="rc-menu__btn">
@@ -111,22 +160,42 @@ const NotesApp = () => {
 		//console.log(heading, content)
 		let newList = [...notesArr]
 		newList[key] = {
-			heading: heading,
-			content: content,
-			active: true,
+			"heading": heading,
+			"content": content,
+			"active": true,
+			"id": key,
+			"date": newList[key].date
 		}
 
 		setNotesArr(newList)
 	}
+
+	const showNotes = () => {
+		setIsTrashActive(false)
+		setIsNotesActive(true)
+	}
+	const showTrash = value => {
+		setIsNotesActive(false)
+		setIsTrashActive(true)
+	}
 	return (
 		<>
 			<FlexWrapper>
-				<MainNavbar/>
+				<MainNavbar
+					showNotes={showNotes}
+					showDeletedItems={showTrash}
+					isNotesActive={isNotesActive}
+					isTrashActive={isTrashActive}
+				/>
 				{/* TESTING: <p style={{color: 'deeppink'}}>{activeKey}</p>*/}
-				<Sidebar addNote={handleAddNote}>
-					{_renderNotesList()}
+				<Sidebar addNote={handleAddNote} isTrashActive={isTrashActive}>
+					{_renderNotesList(isNotesActive ? notesArr : trash)}
 				</Sidebar>
-				<NoteWrapper activeNote={notesArr[activeKey]} activeKey={activeKey} updateNotes={handleUpdateNotes}/>
+				<NoteWrapper
+					activeNote={isNotesActive ? notesArr[activeKey] : trash[trashKey]}
+					activeKey={activeKey}
+					updateNotes={handleUpdateNotes}
+				/>
 			</FlexWrapper>
 		</>
 	)
