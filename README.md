@@ -1,4 +1,10 @@
+
+# MD Notes 🗒
 ![image](https://user-images.githubusercontent.com/12075190/123935940-fc869e00-d994-11eb-84bb-147168708c7c.png)
+ using:
+ - React
+ - localStorage
+ - styled-components
 
 ## [Progress](https://github.com/andreachalmers/notes_/projects/1)
 
