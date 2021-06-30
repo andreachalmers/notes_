@@ -1,4 +1,8 @@
+![image](https://user-images.githubusercontent.com/12075190/123935940-fc869e00-d994-11eb-84bb-147168708c7c.png)
 
+## [Progress](https://github.com/andreachalmers/notes_/projects/1)
+
+# CRA readme
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
